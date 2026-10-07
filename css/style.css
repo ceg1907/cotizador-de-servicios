@@ -1,0 +1,816 @@
+/* ============================================
+   VARIABLES
+   ============================================ */
+:root {
+    --color-fondo: #F4F5F3;
+    --color-superficie: #FFFFFF;
+    --color-borde: #DDE1DC;
+
+    --color-texto: #34383b;
+    --color-texto-secundario: #5B6472;
+
+    --color-acento: #1F4B43;
+    --color-acento-hover: #163830;
+    --color-acento-suave: #E7EEEC;
+
+    --color-monto: #C98A3B;
+
+    --color-pendiente: #C98A3B;
+    --color-pendiente-fondo: #FBF2E4;
+    --color-vencida: #B23A2E;
+    --color-vencida-fondo: #FBEAE8;
+    --color-completada: #1F4B43;
+    --color-completada-fondo: #E7EEEC;
+
+    --fuente-titulos: 'IBM Plex Serif', serif;
+    --fuente-texto: 'IBM Plex Sans', sans-serif;
+
+    --radio-borde: 4px;
+}
+
+/* ============================================
+   BASE
+   ============================================ */
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-texto);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--fuente-titulos);
+    font-weight: 500;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+hr {
+    border-color: rgb(79, 84, 90, 0.5);
+}
+
+/* ============================================
+   HEADER Y NAV
+   ============================================ */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background-color: var(--color-superficie);
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.box-titulos {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+header p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+}
+
+nav {
+    display: flex;
+    gap: 5rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+}
+
+nav a {
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--color-acento);
+    border-bottom-color: var(--color-acento);
+}
+
+.selector-moneda {
+    display: flex;
+}
+
+.selector-moneda button {
+    border: 1px solid var(--color-borde);
+    background: var(--color-superficie);
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.selector-moneda button:first-child {
+    border-radius: var(--radio-borde) 0 0 var(--radio-borde);
+}
+
+.selector-moneda button:last-child {
+    border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
+    border-left: none;
+}
+
+/* ============================================
+   FORMULARIOS
+   ============================================ */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    font-size: 14px;
+    font-family: inherit;
+    background-color: var(--color-superficie);
+    color: var(--color-texto);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+    margin-bottom: 6px;
+}
+
+.texto-ayuda {
+    font-size: 12px;
+    color: var(--color-texto-secundario);
+    line-height: 1.5;
+    margin-top: 14px;
+}
+
+.box-fila-doble {
+    display: flex;
+    gap: 16px;
+}
+
+.box-fila-doble>div {
+    flex: 1;
+}
+
+.box-vigencia {
+    margin-bottom: 18px;
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+.btn-primario,
+.btn-secundario {
+    border: none;
+    border-radius: var(--radio-borde);
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.btn-primario {
+    background-color: var(--color-acento);
+    color: var(--color-superficie);
+}
+
+.btn-primario:hover {
+    background-color: var(--color-acento-hover);
+}
+
+.btn-secundario {
+    background-color: transparent;
+    color: var(--color-texto-secundario);
+    border: 1px solid var(--color-borde);
+}
+
+.btn-secundario:hover {
+    background-color: var(--color-fondo);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--color-acento);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    color: var(--color-acento-hover);
+}
+
+.btn-link--peligro {
+    color: var(--color-vencida);
+}
+
+.btn-link--peligro:hover {
+    color: #8a2a21;
+}
+
+.btn-icono {
+    border: none;
+    background: transparent;
+    color: var(--color-vencida);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-texto-icono {
+    background: none;
+    border: none;
+    color: var(--color-texto-secundario);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-texto-icono:hover {
+    color: var(--color-acento);
+}
+
+.btn-texto-icono--peligro:hover {
+    color: var(--color-vencida);
+}
+
+/* ============================================
+   CARD / FILAS GENÉRICAS
+   ============================================ */
+.card {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    box-shadow: none;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.card-text {
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+    margin-bottom: 0;
+}
+
+.box-estado {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ============================================
+   MONTOS
+   ============================================ */
+.monto {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-monto);
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+}
+
+/* ============================================
+   ESTADOS DEL HISTORIAL
+   ============================================ */
+.select-estado--pendiente {
+    color: var(--color-pendiente);
+    background-color: var(--color-pendiente-fondo);
+    border-color: var(--color-pendiente);
+    font-weight: 600;
+}
+
+.select-estado--vencida {
+    color: var(--color-vencida);
+    background-color: var(--color-vencida-fondo);
+    border-color: var(--color-vencida);
+    font-weight: 600;
+}
+
+.select-estado--completada {
+    color: var(--color-completada);
+    background-color: var(--color-completada-fondo);
+    border-color: var(--color-completada);
+    font-weight: 600;
+}
+
+/* ============================================
+   BUSCADOR (reusado en modales y en Configuración)
+   ============================================ */
+.box-buscador-accion {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-end;
+}
+
+.contenedor-busqueda {
+    position: relative;
+    flex-grow: 1;
+}
+
+
+.campo-busqueda {
+    position: relative;
+}
+
+.icono-lupa {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: var(--color-texto-secundario);
+    pointer-events: none;
+}
+
+.contenedor-busqueda input {
+    padding-left: 36px;
+}
+
+/* ============================================
+   INDEX — cliente, lista de servicios y resumen
+   ============================================ */
+.main-index {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    max-width: 1500px;
+}
+
+.box-servicios {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.box-cliente {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+
+.box-cliente-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.box-cliente-header h2 {
+    font-size: 15px;
+    color: var(--color-texto-secundario);
+    margin: 0;
+}
+
+.box-cliente-datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 24px;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.dato-label {
+    color: var(--color-texto-secundario);
+}
+
+.box-cliente-acciones {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.box-header-servicios {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.box-lista-servicios-cotizacion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.texto-vacio-centrado {
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 24px 0;
+}
+
+.fila-servicio-cotizacion {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.fila-servicio-nombre {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px 0;
+}
+
+.fila-servicio-controles {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.box-cantidad-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.box-cantidad-inline label {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.box-cantidad-inline input {
+    width: 60px;
+}
+
+.box-resumen {
+    width: 340px;
+    flex-shrink: 0;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 24px;
+    position: sticky;
+    top: 24px;
+}
+
+.box-items-cotizacion {
+    list-style: none;
+    margin: 0 0 16px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.box-items-cotizacion li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+}
+
+.box-confirm {
+    border-top: 1px solid var(--color-borde);
+    padding-top: 16px;
+}
+
+.box-subtotales {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+    margin-bottom: 16px;
+}
+
+.box-subtotales>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.box-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+    border-top: 1px solid var(--color-borde);
+    padding-top: 14px;
+}
+
+.box-total h4 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.botones-confirm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ============================================
+   HISTORIAL — filtros + lista de cotizaciones
+   ============================================ */
+.box-filtros {
+    display: flex;
+    gap: 24px;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+}
+
+.box-filtros>div {
+    width: 240px;
+}
+
+#box-historial-cotizacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+#box-historial-cotizacion .card-body>div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+#box-historial-cotizacion .card-body select {
+    width: auto;
+}
+
+/* ============================================
+   CONFIGURACIÓN (admin) — pestañas, listas y form de empresa
+   ============================================ */
+.nav-tabs {
+    border-bottom: 1px solid var(--color-borde);
+    margin-bottom: 28px;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--color-texto-secundario);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0 0 12px 0;
+    margin-right: 28px;
+    border-radius: 0;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent;
+    color: var(--color-acento);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--color-acento);
+    font-weight: 600;
+    border-color: var(--color-acento);
+    background: none;
+}
+
+.box-lista-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fila-admin {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fila-admin-controles {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.box-form-empresa {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 28px;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.box-impuesto {
+    width: 200px;
+}
+
+.box-form-empresa .btn-primario {
+    margin-top: 8px;
+    align-self: flex-start;
+}
+
+/* ============================================
+   RESULTADOS DENTRO DE MODALES
+   ============================================ */
+.box-resultados {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.fila-resultado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px;
+    border-radius: var(--radio-borde);
+}
+
+.fila-resultado:hover {
+    background-color: var(--color-fondo);
+}
+
+.fila-resultado-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.fila-resultado-controles input {
+    width: 60px;
+}
+
+/* ============================================
+   MODALES (Bootstrap) — ajuste de tipografía y bordes
+   ============================================ */
+.modal-content {
+    border-radius: var(--radio-borde);
+    border: none;
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--color-borde);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-footer-split {
+    justify-content: space-between;
+}
+
+.modal-backdrop {
+    --bs-backdrop-bg: #1B1F23;
+    --bs-backdrop-opacity: 0.45;
+}
+
+.modal-content {
+    box-shadow: 0 10px 34px rgba(27, 31, 35, 0.24);
+}
+
+/* ============================================
+   ALERTS DE SWEETALERT
+   ============================================ */
+.swal2-popup.toast-cotizador {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    box-shadow: 0 4px 14px rgba(27, 31, 35, 0.12);
+}
+
+.swal2-popup.toast-cotizador .swal2-title {
+    font-family: var(--fuente-texto);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-texto);
+}
+
+.swal2-popup.modal-cotizador {
+    background-color: var(--color-superficie);
+    border-radius: var(--radio-borde);
+    padding: 32px 28px;
+    font-family: var(--fuente-texto);
+}
+
+.swal2-popup.modal-cotizador .swal2-title {
+    font-family: var(--fuente-titulos);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.swal2-popup.modal-cotizador .swal2-html-container {
+    font-size: 14px;
+    color: var(--color-texto-secundario);
+}
+
+.swal2-popup.modal-cotizador .swal2-actions {
+    width: 100%;
+    gap: 10px;
+}
+
+.swal2-popup.modal-cotizador .swal2-actions button {
+    flex: 1;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+
+    .main-index {
+        flex-direction: column;
+    }
+
+    .box-resumen {
+        width: 100%;
+        position: static;
+    }
+
+    .box-filtros {
+        flex-direction: column;
+    }
+
+    .box-filtros>div {
+        width: 100%;
+    }
+
+    .box-buscador-accion,
+    .fila-servicio-cotizacion,
+    .fila-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    header {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px 24px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-size: 20px;
+    }
+
+    nav {
+        gap: 16px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+}

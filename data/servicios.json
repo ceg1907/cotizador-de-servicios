@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "nombre": "Desarrollo web a medida",
+    "categoria": "desarrollo",
+    "precio": 850,
+    "unidad": "unidad"
+  },
+  {
+    "id": 2,
+    "nombre": "Mantenimiento mensual",
+    "categoria": "desarrollo",
+    "precio": 150,
+    "unidad": "mes"
+  },
+  {
+    "id": 3,
+    "nombre": "Identidad de marca",
+    "categoria": "diseno",
+    "precio": 420,
+    "unidad": "unidad"
+  },
+  {
+    "id": 4,
+    "nombre": "Fotografía de producto",
+    "categoria": "diseno",
+    "precio": 95,
+    "unidad": "unidad"
+  },
+  {
+    "id": 5,
+    "nombre": "Gestión de redes sociales",
+    "categoria": "marketing",
+    "precio": 260,
+    "unidad": "mes"
+  },
+  {
+    "id": 6,
+    "nombre": "Consultoría SEO",
+    "categoria": "marketing",
+    "precio": 180,
+    "unidad": "hora"
+  },
+  {
+    "id": 7,
+    "nombre": "Auditoría de procesos",
+    "categoria": "consultoria",
+    "precio": 300,
+    "unidad": "hora"
+  }
+]

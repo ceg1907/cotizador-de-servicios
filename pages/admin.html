@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración — Cotizador de Servicios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script src="../js/app.js" defer></script>
+    <script src="../js/admin.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="box-titulos">
+            <h1 class="fs-3">Cotizador de Servicios</h1>
+            <p>Nombre Empresa</p>
+        </div>
+        <nav aria-label="Navegación principal">
+            <ul>
+                <li><a href="../index.html">Cotizador</a></li>
+                <li><a href="./historial.html">Historial</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2 class="fs-3">Configuración</h2>
+        <p class="texto-ayuda">Administrá los servicios, clientes y datos de tu empresa.</p>
+
+        <ul class="nav nav-tabs" id="configTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab-servicios-btn" data-bs-toggle="tab"
+                    data-bs-target="#tab-servicios" type="button" role="tab" aria-controls="tab-servicios"
+                    aria-selected="true">Servicios</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-clientes-btn" data-bs-toggle="tab" data-bs-target="#tab-clientes"
+                    type="button" role="tab" aria-controls="tab-clientes" aria-selected="false">Clientes</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-empresa-btn" data-bs-toggle="tab" data-bs-target="#tab-empresa"
+                    type="button" role="tab" aria-controls="tab-empresa" aria-selected="false">Empresa</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="configTabsContent">
+
+            <div class="tab-pane fade show active" id="tab-servicios" role="tabpanel"
+                aria-labelledby="tab-servicios-btn">
+                <div class="box-buscador-accion">
+                    <div class="contenedor-busqueda">
+                        <label for="buscar-servicio-admin">Buscar servicio</label>
+                        <div class="campo-busqueda">
+                            <svg class="icono-lupa" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="buscar-servicio-admin" placeholder="Nombre o categoría...">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-primario" data-bs-toggle="modal"
+                        data-bs-target="#modalNuevoServicio">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Nuevo servicio
+                    </button>
+                </div>
+
+                <div id="box-lista-servicios" class="box-lista-admin">
+                    <!-- EJEMPLO (todo dinamico) -->
+                    <article class="fila-admin">
+                        <div>
+                            <h3 class="fila-servicio-nombre">Desarrollo web a medida</h3>
+                            <p class="card-text">Desarrollo · por unidad</p>
+                        </div>
+                        <div class="fila-admin-controles">
+                            <span class="monto">USD 850</span>
+                            <button type="button" class="btn-icono" aria-label="Eliminar Desarrollo web a medida">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </article>
+                    <!-- EJEMPLO (todo dinamico) -->
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-clientes" role="tabpanel" aria-labelledby="tab-clientes-btn">
+                <div class="box-buscador-accion">
+                    <div class="contenedor-busqueda">
+                        <svg class="icono-lupa" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <label for="buscar-cliente-admin" class="visually-hidden">Buscar cliente</label>
+                        <input type="text" id="buscar-cliente-admin" placeholder="Nombre de la empresa o contacto...">
+                    </div>
+                    <button type="button" class="btn-primario" data-bs-toggle="modal"
+                        data-bs-target="#modalNuevoCliente">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Nuevo cliente
+                    </button>
+                </div>
+
+                <div id="box-lista-clientes" class="box-lista-admin">
+                    <!-- EJEMPLO (todo dinamico) -->
+                    <article class="fila-admin">
+                        <div>
+                            <h3 class="fila-servicio-nombre">Ferretería Demo Centro</h3>
+                            <p class="card-text">ventas@ferreteriademo.com · San Salvador</p>
+                        </div>
+                        <div class="fila-admin-controles">
+                            <span class="card-text">2444-3333</span>
+                            <button type="button" class="btn-icono"
+                                aria-label="Eliminar cliente Ferretería Demo Centro">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </article>
+                    <!-- EJEMPLO (todo dinamico) -->
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-empresa" role="tabpanel" aria-labelledby="tab-empresa-btn">
+
+                <form id="form-empresa" class="box-form-empresa">
+                    <div>
+                        <label for="emp-nombre">Nombre de la empresa</label>
+                        <input type="text" id="emp-nombre" name="emp-nombre" placeholder="Ej: Estudio Lindén" required>
+                    </div>
+                    <div class="box-fila-doble">
+                        <div>
+                            <label for="emp-telefono">Teléfono</label>
+                            <input type="text" id="emp-telefono" name="emp-telefono" placeholder="2222-1112">
+                        </div>
+                        <div>
+                            <label for="emp-email">Email</label>
+                            <input type="email" id="emp-email" name="emp-email" placeholder="contacto@tuempresa.com">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="emp-direccion">Dirección</label>
+                        <input type="text" id="emp-direccion" name="emp-direccion" placeholder="Av. Principal 123">
+                    </div>
+                    <div class="box-impuesto">
+                        <label for="emp-impuesto">Impuesto por defecto (%)</label>
+                        <input type="number" id="emp-impuesto" name="emp-impuesto" min="0" value="13">
+                    </div>
+                    <button type="submit" class="btn-primario">Guardar cambios</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal: Nuevo servicio -->
+    <div class="modal fade" id="modalNuevoServicio" tabindex="-1" aria-labelledby="modalNuevoServicioLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalNuevoServicioLabel">Nuevo servicio</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <form id="form-servicio">
+                    <div class="modal-body">
+                        <div>
+                            <label for="nombre-servicio">Nombre</label>
+                            <input type="text" id="nombre-servicio" name="nombre-servicio"
+                                placeholder="Ej: Mantenimiento mensual" required>
+                        </div>
+                        <div>
+                            <label for="categoria-servicio">Categoría</label>
+                            <select id="categoria-servicio" name="categoria-servicio" required>
+                                <option value="" disabled selected>Selecciona una opción...</option>
+                                <option value="desarrollo">Desarrollo</option>
+                                <option value="diseno">Diseño</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="consultoria">Consultoría</option>
+                            </select>
+                        </div>
+                        <div class="box-fila-doble">
+                            <div>
+                                <label for="precio-servicio">Precio (USD)</label>
+                                <input type="number" id="precio-servicio" name="precio-servicio" min="1" placeholder="0"
+                                    required>
+                            </div>
+                            <div>
+                                <label for="unidad-servicio">Unidad</label>
+                                <select id="unidad-servicio" name="unidad-servicio" required>
+                                    <option value="unidad">Unidad</option>
+                                    <option value="hora">Hora</option>
+                                    <option value="mes">Mes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secundario" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-primario">Guardar servicio</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo cliente -->
+    <div class="modal fade" id="modalNuevoCliente" tabindex="-1" aria-labelledby="modalNuevoClienteLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalNuevoClienteLabel">Nuevo cliente</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <form id="form-cliente">
+                    <div class="modal-body">
+                        <div>
+                            <label for="nombre-cliente">Empresa / Nombre de contacto</label>
+                            <input type="text" id="nombre-cliente" name="nombre-cliente"
+                                placeholder="Ej: Ferretería Demo Centro" required>
+                        </div>
+                        <div>
+                            <label for="email-cliente">Email</label>
+                            <input type="email" id="email-cliente" name="email-cliente"
+                                placeholder="contacto@empresa.com" required>
+                        </div>
+                        <div class="box-fila-doble">
+                            <div>
+                                <label for="telefono-cliente">Teléfono</label>
+                                <input type="text" id="telefono-cliente" name="telefono-cliente" placeholder="2222-1112"
+                                    required>
+                            </div>
+                            <div>
+                                <label for="ciudad-cliente">Ciudad</label>
+                                <input type="text" id="ciudad-cliente" name="ciudad-cliente" placeholder="San Salvador">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="direccion-cliente">Dirección</label>
+                            <input type="text" id="direccion-cliente" name="direccion-cliente"
+                                placeholder="Av. Principal 123">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secundario" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-primario">Guardar cliente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

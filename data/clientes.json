@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "nombre": "Librería El Lector",
+    "email": "pedidos@libreriaellector.com",
+    "telefono": "2611-4480",
+    "ciudad": "Santa Tecla",
+    "direccion": "Calle Chiltiupán 212"
+  },
+  {
+    "id": 2,
+    "nombre": "María Gómez",
+    "email": "maria@email.com",
+    "telefono": "2333-2222",
+    "ciudad": "Santa Ana",
+    "direccion": "Calle Norte 45"
+  },
+  {
+    "id": 3,
+    "nombre": "Pastelería Dulce Hogar",
+    "email": "contacto@dulcehogar.com",
+    "telefono": "2555-1189",
+    "ciudad": "San Miguel",
+    "direccion": "Boulevard del Ejército km 3"
+  }
+]
