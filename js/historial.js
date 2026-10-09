@@ -96,6 +96,24 @@ idBoxFilaHistorial.addEventListener('click', async (evento) => {
   }
 });
 
+// Select de ESTADO
+
+idBoxFilaHistorial.addEventListener('change', (evento) => {
+  const detectarSelect = evento.target.closest('.select-estado');
+
+  if (detectarSelect) {
+    const idSelectFila = Number(detectarSelect.dataset.id);
+
+    const historial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
+    const cotEncontrada = historial.find((item) => item.id === idSelectFila);
+    cotEncontrada.estado = detectarSelect.value;
+
+    guardarEnStorage(CLAVE_HISTORIAL_COTIZACIONES, historial);
+
+    actualizarHistorial();
+  }
+});
+
 function iniciarHistorial() {
   actualizarHistorial();
 }
