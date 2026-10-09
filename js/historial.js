@@ -1,9 +1,20 @@
+// ===== FILTROS =====
+const selectEstado = document.getElementById('filtro-estado');
+selectEstado.addEventListener('change', () => {
+  actualizarHistorial();
+});
+
 // FUNCIONES REUTILIZABLES
 
 function actualizarHistorial() {
   const historial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
+
+  const cotPorEstado =
+    selectEstado.value === 'todos'
+      ? historial
+      : historial.filter((item) => item.estado === selectEstado.value);
   renderizarLista(
-    historial,
+    cotPorEstado,
     crearTarjetaCotizacion,
     'box-historial-cotizacion',
   );
@@ -17,7 +28,7 @@ function crearTarjetaCotizacion(cotizacion) {
       <div class="card-body">
         <div>
           <h5 class="card-title"> ${formatearNumeroCotizacion(cotizacion.numeroCotizacion)} — ${formatearFecha(cotizacion.fecha)}</h5>
-          <p class="card-text">${cotizacion.cliente.nombre}</p>
+          <p class="card-text">${cotizacion.cliente.nombre} · ${formatearCategorias(cotizacion.servicios)}</p>
           <span class="monto">${formatearMoneda(cotizacion.total)}</span>
         </div>
         <hr class="my-2 mx-5">
@@ -67,6 +78,14 @@ function crearTarjetaCotizacion(cotizacion) {
       </div>
     </article>
   `;
+}
+
+function formatearCategorias(servicios) {
+  let categorias = servicios.map((servicio) => servicio.categoria);
+  categorias = [...new Set(categorias)];
+  const textoCategorias = categorias.join(', ');
+
+  return textoCategorias;
 }
 
 // ====== BOTONES ======
