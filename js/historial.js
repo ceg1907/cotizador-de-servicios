@@ -3,18 +3,36 @@ const selectEstado = document.getElementById('filtro-estado');
 selectEstado.addEventListener('change', () => {
   actualizarHistorial();
 });
+const selectCategoria = document.getElementById('filtro-categoria');
+selectCategoria.addEventListener('change', () => {
+  actualizarHistorial();
+});
+
+function aplicarFiltro(lista, valor, condicion) {
+  const listaFiltrada = valor === 'todos' ? lista : lista.filter(condicion);
+  return listaFiltrada;
+}
 
 // FUNCIONES REUTILIZABLES
 
 function actualizarHistorial() {
   const historial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
 
-  const cotPorEstado =
-    selectEstado.value === 'todos'
-      ? historial
-      : historial.filter((item) => item.estado === selectEstado.value);
-  renderizarLista(
+  const cotPorEstado = aplicarFiltro(
+    historial,
+    selectEstado.value,
+    (item) => item.estado === selectEstado.value,
+  );
+  const cotPorCategoria = aplicarFiltro(
     cotPorEstado,
+    selectCategoria.value,
+    (cotizacion) =>
+      cotizacion.servicios.some(
+        (servicio) => servicio.categoria === selectCategoria.value,
+      ),
+  );
+  renderizarLista(
+    cotPorCategoria,
     crearTarjetaCotizacion,
     'box-historial-cotizacion',
   );
