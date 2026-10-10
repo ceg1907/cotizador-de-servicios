@@ -144,9 +144,13 @@ function formatearMoneda(numero) {
 
 // ===== SERVICIOS =====
 
-async function traerServicios() {
+async function traerServicios(rutaAcceso) {
   try {
-    const serviciosDb = await fetch('data/servicios.json');
+    const rutaCompleta =
+      rutaAcceso === undefined
+        ? 'data/servicios.json'
+        : rutaAcceso + 'data/servicios.json';
+    const serviciosDb = await fetch(rutaCompleta);
     const servicios = await serviciosDb.json();
     return servicios;
   } catch (error) {
@@ -154,18 +158,30 @@ async function traerServicios() {
   }
 }
 
-async function traerTodosLosServicios() {
-  const serviciosDelJson = await traerServicios();
+async function traerTodosLosServicios(rutaAcceso) {
+  const serviciosDelJson = await traerServicios(rutaAcceso);
   const serviciosDelStorage = leerStorage(CLAVE_SERVICIOS, []);
   const todosLosServicios = combinarDb(serviciosDelJson, serviciosDelStorage);
   return todosLosServicios;
 }
 
+// ==== CATEGORIAS ====
+
+function traerCategorias(servicios) {
+  let categorias = servicios.map((servicio) => servicio.categoria);
+  categorias = [...new Set(categorias)];
+  return categorias;
+}
+
 // ===== CLIENTES =====
 
-async function traerClientes() {
+async function traerClientes(rutaAcceso) {
   try {
-    const clientesDb = await fetch('data/clientes.json');
+    const rutaCompleta =
+      rutaAcceso === undefined
+        ? 'data/clientes.json'
+        : rutaAcceso + 'data/clientes.json';
+    const clientesDb = await fetch(rutaCompleta);
     const clientes = await clientesDb.json();
     return clientes;
   } catch (error) {
@@ -173,8 +189,8 @@ async function traerClientes() {
   }
 }
 
-async function traerTodosLosClientes() {
-  const clientesdelJson = await traerClientes();
+async function traerTodosLosClientes(rutaAcceso) {
+  const clientesdelJson = await traerClientes(rutaAcceso);
   const clientesDelStorage = leerStorage(CLAVE_CLIENTES, []);
   const todosLosClientes = combinarDb(clientesdelJson, clientesDelStorage);
   return todosLosClientes;

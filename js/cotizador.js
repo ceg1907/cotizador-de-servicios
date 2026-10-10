@@ -358,4 +358,3 @@ async function iniciarCotizador() {
 }
 
 iniciarCotizador();
-// mostrarResumenDom(leerBorrador().servicios);

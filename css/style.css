@@ -145,6 +145,7 @@ select {
     font-family: inherit;
     background-color: var(--color-superficie);
     color: var(--color-texto);
+    text-transform: capitalize;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {

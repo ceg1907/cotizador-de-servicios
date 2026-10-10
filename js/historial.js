@@ -1,4 +1,4 @@
-// ===== FILTROS =====
+// ===== CONTENEDORES FILTROS =====
 const selectEstado = document.getElementById('filtro-estado');
 selectEstado.addEventListener('change', () => {
   actualizarHistorial();
@@ -13,12 +13,12 @@ inputBusqueda.addEventListener('input', () => {
   actualizarHistorial();
 });
 
+// FUNCIONES REUTILIZABLES
+
 function aplicarFiltro(lista, valor, condicion) {
   const listaFiltrada = valor === 'todos' ? lista : lista.filter(condicion);
   return listaFiltrada;
 }
-
-// FUNCIONES REUTILIZABLES
 
 function actualizarHistorial() {
   const historial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
@@ -69,7 +69,16 @@ function actualizarHistorial() {
   );
 }
 
-// ===== CREACION DE TARJETAS DE HISTORIAL =====
+// FORMATEADORES
+
+function formatearCategorias(servicios) {
+  const categorias = traerCategorias(servicios);
+  const textoCategorias = categorias.join(', ');
+
+  return textoCategorias;
+}
+
+// ===== CREACION DE HTML =====
 
 function crearTarjetaCotizacion(cotizacion) {
   return `
@@ -129,12 +138,10 @@ function crearTarjetaCotizacion(cotizacion) {
   `;
 }
 
-function formatearCategorias(servicios) {
-  let categorias = servicios.map((servicio) => servicio.categoria);
-  categorias = [...new Set(categorias)];
-  const textoCategorias = categorias.join(', ');
-
-  return textoCategorias;
+function crearOpcionCategoria(categoria) {
+  return `
+          <option value="${categoria}">${categoria}</option>
+  `;
 }
 
 // ====== BOTONES ======
@@ -182,7 +189,14 @@ idBoxFilaHistorial.addEventListener('change', (evento) => {
   }
 });
 
-function iniciarHistorial() {
+async function iniciarHistorial() {
+  const serviciosCargados = await traerTodosLosServicios('../');
+  const categoriasEncontradas = traerCategorias(serviciosCargados);
+
+  categoriasEncontradas.forEach((categoria) => {
+    selectCategoria.innerHTML += crearOpcionCategoria(categoria);
+  });
+
   actualizarHistorial();
 }
 
