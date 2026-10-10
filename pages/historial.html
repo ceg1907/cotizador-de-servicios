@@ -38,37 +38,38 @@
     <main>
         <h2>Historial de cotizaciones</h2>
         <fieldset class="box-filtros">
-            <div>
-                <label for="filtro-estado">Filtrar por estado</label>
-                <select name="filtro-estado" id="filtro-estado">
-                    <option value="todos" selected>Todos</option>
-                    <!-- EJEMPLO (todo dinamico) -->
-                    <option value="pendiente">Pendiente</option>
-                    <option value="vencida">Vencida</option>
-                    <option value="completada">Completada</option>
-                    <!-- EJEMPLO (todo dinamico) -->
-                </select>
+            <div class="box-filtro-busqueda">
+                <label for="filtro-busqueda">Buscar</label>
+                <div class="contenedor-busqueda">
+                    <svg class="icono-lupa" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="filtro-busqueda" placeholder="Cliente o número (COT-0001)...">
+                </div>
             </div>
-            <div>
-                <label for="filtro-categoria">Filtrar por categoría</label>
-                <select name="filtro-categoria" id="filtro-categoria">
-                    <option value="todos" selected>Todos</option>
-                    <!-- EJEMPLO (todo dinamico) -->
-                    <option value="desarrollo">Desarrollo</option>
-                    <option value="diseno">Diseño</option>
-                    <option value="marketing">Marketing</option>
-                    <!-- EJEMPLO (todo dinamico) -->
-                </select>
-            </div>
-            <div>
-                <label for="filtro-cliente">Filtrar por cliente</label>
-                <select name="filtro-cliente" id="filtro-cliente">
-                    <option value="todos" selected>Todos</option>
-                    <!-- EJEMPLO (todo dinamico) -->
-                    <option value="1">Ferretería Demo Centro</option>
-                    <option value="2">María Gómez</option>
-                    <!-- EJEMPLO (todo dinamico) -->
-                </select>
+
+            <div class="box-filtros-selects">
+                <div>
+                    <label for="filtro-estado">Filtrar por estado</label>
+                    <select name="filtro-estado" id="filtro-estado">
+                        <option value="todos" selected>Todos</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="vencida">Vencida</option>
+                        <option value="completada">Completada</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="filtro-categoria">Filtrar por categoría</label>
+                    <select name="filtro-categoria" id="filtro-categoria">
+                        <option value="todos" selected>Todas</option>
+                        <option value="desarrollo">Desarrollo</option>
+                        <option value="diseño">Diseño</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
             </div>
         </fieldset>
 

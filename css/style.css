@@ -553,15 +553,25 @@ label {
    ============================================ */
 .box-filtros {
     display: flex;
-    gap: 24px;
+    align-items: flex-end;
+    gap: 48px;
     border: 1px solid var(--color-borde);
     border-radius: var(--radio-borde);
     padding: 20px 24px;
     margin-bottom: 28px;
 }
 
-.box-filtros>div {
-    width: 240px;
+.box-filtro-busqueda {
+    flex-grow: 1;
+}
+
+.box-filtros-selects {
+    display: flex;
+    gap: 16px;
+}
+
+.box-filtros-selects>div {
+    width: 200px;
 }
 
 #box-historial-cotizacion {
@@ -778,8 +788,10 @@ label {
         position: static;
     }
 
-    .box-filtros {
+    .box-filtros,
+    .box-filtros-selects {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .box-filtros>div {

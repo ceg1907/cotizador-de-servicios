@@ -16,14 +16,14 @@
   {
     "id": 3,
     "nombre": "Identidad de marca",
-    "categoria": "diseno",
+    "categoria": "diseño",
     "precio": 420,
     "unidad": "unidad"
   },
   {
     "id": 4,
     "nombre": "Fotografía de producto",
-    "categoria": "diseno",
+    "categoria": "diseño",
     "precio": 95,
     "unidad": "unidad"
   },

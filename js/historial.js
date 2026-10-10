@@ -8,6 +8,11 @@ selectCategoria.addEventListener('change', () => {
   actualizarHistorial();
 });
 
+const inputBusqueda = document.getElementById('filtro-busqueda');
+inputBusqueda.addEventListener('input', () => {
+  actualizarHistorial();
+});
+
 function aplicarFiltro(lista, valor, condicion) {
   const listaFiltrada = valor === 'todos' ? lista : lista.filter(condicion);
   return listaFiltrada;
@@ -31,8 +36,34 @@ function actualizarHistorial() {
         (servicio) => servicio.categoria === selectCategoria.value,
       ),
   );
-  renderizarLista(
+
+  const textoBuscado = formatearTexto(inputBusqueda.value);
+  const cotBuscadas = aplicarFiltro(
     cotPorCategoria,
+    textoBuscado,
+    (cotizacion) =>
+      formatearTexto(cotizacion.cliente.nombre).includes(textoBuscado) ||
+      formatearTexto(formatearNumeroCotizacion(cotizacion.numeroCotizacion))
+        .toLowerCase()
+        .includes(textoBuscado),
+  );
+  if (historial.length === 0) {
+    mostrarMensajeVacio(
+      'box-historial-cotizacion',
+      'Todavía no confirmaste ninguna cotización. Cuando confirmes una en el Cotizador, va a aparecer acá.',
+    );
+    return;
+  }
+
+  if (cotBuscadas.length === 0) {
+    mostrarMensajeVacio(
+      'box-historial-cotizacion',
+      'No encontramos cotizaciones que coincidan con tu búsqueda. Probá con otro nombre, número o filtro',
+    );
+    return;
+  }
+  renderizarLista(
+    cotBuscadas,
     crearTarjetaCotizacion,
     'box-historial-cotizacion',
   );

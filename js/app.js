@@ -11,6 +11,18 @@ const DESCUENTO_POR_DEFECTO = 0;
 
 // ===== FUNCIONES REUTILIZABLES =====
 
+// MENSAJE DE BOX VACIA
+
+function mostrarMensajeVacio(idContenedor, texto, clases) {
+  const idBox = document.getElementById(idContenedor);
+
+  const textoBoxVacio = document.createElement('p');
+  textoBoxVacio.className =
+    clases === undefined ? 'texto-ayuda texto-vacio-centrado' : clases;
+  textoBoxVacio.textContent = texto;
+  idBox.replaceChildren(textoBoxVacio);
+}
+
 // STORAGE
 
 function guardarEnStorage(clave, dataBase) {
@@ -186,12 +198,26 @@ function generarNumeroCotizacion() {
   }
 }
 
+// ===== FORMATEADORES =====
+
+// NUMEROS
+
 function formatearNumeroCotizacion(numero) {
   return `COT-${String(numero).padStart(4, '0')}`;
 }
 
+// FECHA
 function formatearFecha(fechaGuardada) {
   const partes = fechaGuardada.split('-');
   const partesInvertidas = partes.reverse();
   return partesInvertidas.join('/');
+}
+
+// TEXTO
+function formatearTexto(texto) {
+  return texto
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 }
