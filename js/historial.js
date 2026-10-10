@@ -26,7 +26,7 @@ function actualizarHistorial() {
   const cotPorEstado = aplicarFiltro(
     historial,
     selectEstado.value,
-    (item) => item.estado === selectEstado.value,
+    (item) => obtenerEstadoVisible(item) === selectEstado.value,
   );
   const cotPorCategoria = aplicarFiltro(
     cotPorEstado,
@@ -81,6 +81,7 @@ function formatearCategorias(servicios) {
 // ===== CREACION DE HTML =====
 
 function crearTarjetaCotizacion(cotizacion) {
+  const estadoVisible = obtenerEstadoVisible(cotizacion);
   return `
     <article class="card w-100 mb-3">
       <div class="card-body">
@@ -93,10 +94,10 @@ function crearTarjetaCotizacion(cotizacion) {
         <div class="d-flex justify-content-between">
           <div class="box-estado">
             <label for="estado-${cotizacion.id}">Estado</label>
-            <select id="estado-${cotizacion.id}" data-id="${cotizacion.id}" class="select-estado select-estado--${cotizacion.estado}">
-              <option value="pendiente" ${cotizacion.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
-              <option value="vencida" ${cotizacion.estado === 'vencida' ? 'selected' : ''}>Vencida</option>
-              <option value="completada" ${cotizacion.estado === 'completada' ? 'selected' : ''}>Completada</option>
+            <select id="estado-${cotizacion.id}" data-id="${cotizacion.id}" class="select-estado select-estado--${estadoVisible}">
+              <option value="pendiente" ${estadoVisible === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+              <option value="vencida" ${estadoVisible === 'vencida' ? 'selected' : ''}>Vencida</option>
+              <option value="completada" ${estadoVisible === 'completada' ? 'selected' : ''}>Completada</option>
             </select>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -188,6 +189,16 @@ idBoxFilaHistorial.addEventListener('change', (evento) => {
     actualizarHistorial();
   }
 });
+
+// VIGENCIA DE COTIZACION
+
+function obtenerEstadoVisible(cotizacion) {
+  const fechaActual = new Date().toLocaleDateString('en-CA');
+  return cotizacion.estado === 'pendiente' &&
+    fechaActual > cotizacion.validoHasta
+    ? 'vencida'
+    : cotizacion.estado;
+}
 
 async function iniciarHistorial() {
   const serviciosCargados = await traerTodosLosServicios('../');
