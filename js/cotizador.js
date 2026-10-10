@@ -151,15 +151,11 @@ boxFilaCotizador.addEventListener('click', (evento) => {
 });
 
 function mostrarCotizacionDom(servicios) {
-  const idBoxCotizador = document.getElementById('box-lista-cotizacion');
-
   if (servicios.length === 0) {
-    const textoBoxVacio = document.createElement('p');
-    textoBoxVacio.className = 'texto-ayuda texto-vacio-centrado';
-    textoBoxVacio.textContent =
-      'Todavía no agregaste ningún servicio a la cotización. Hacé clic en "Agregar servicio" para empezar.';
-    idBoxCotizador.replaceChildren(textoBoxVacio);
-
+    mostrarMensajeVacio(
+      'box-lista-cotizacion',
+      'Todavía no agregaste ningún servicio a la cotización. Hacé clic en "Agregar servicio" para empezar.',
+    );
     return;
   }
   renderizarLista(servicios, crearFilaCotizacion, 'box-lista-cotizacion');
@@ -335,12 +331,11 @@ function mostrarClienteDom(cliente) {
   const boxClientes = document.getElementById('box-cliente-dinamico');
 
   if (cliente === null) {
-    const textoBoxVacio = document.createElement('p');
-    textoBoxVacio.className = 'texto-ayuda';
-    textoBoxVacio.textContent =
-      'Todavía no seleccionaste un cliente para esta cotización.';
-    boxClientes.replaceChildren(textoBoxVacio);
-
+    mostrarMensajeVacio(
+      'box-cliente-dinamico',
+      'Todavía no seleccionaste un cliente para esta cotización.',
+      'texto-ayuda',
+    );
     return;
   }
   boxClientes.innerHTML = crearTarjetaCliente(cliente);
