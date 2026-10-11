@@ -12,6 +12,7 @@ const DESCUENTO_POR_DEFECTO = 0;
 // ===== FUNCIONES REUTILIZABLES =====
 
 // FUNCION PARA AGRUPAR EVENTOS
+
 function escucharEvento(id, tipoEvento, funcion) {
   const elemento = document.getElementById(id);
   if (elemento) {
@@ -54,13 +55,6 @@ function leerStorage(clave, dataBase) {
 function generarId() {
   const idNuevo = Date.now();
   return idNuevo;
-}
-
-// COMBINAR ARRAYS
-
-function combinarDb(dataBase1, dataBase2) {
-  const dataBaseComp = [...dataBase1, ...dataBase2];
-  return dataBaseComp;
 }
 
 // LEER DATOS DEL BORRADOR
@@ -167,10 +161,15 @@ async function traerServicios(rutaAcceso) {
 }
 
 async function traerTodosLosServicios(rutaAcceso) {
-  const serviciosDelJson = await traerServicios(rutaAcceso);
-  const serviciosDelStorage = leerStorage(CLAVE_SERVICIOS, []);
-  const todosLosServicios = combinarDb(serviciosDelJson, serviciosDelStorage);
-  return todosLosServicios;
+  const serviciosDelStorage = leerStorage(CLAVE_SERVICIOS, null);
+
+  if (serviciosDelStorage !== null) {
+    return serviciosDelStorage;
+  } else {
+    const serviciosDelJson = await traerServicios(rutaAcceso);
+    guardarEnStorage(CLAVE_SERVICIOS, serviciosDelJson);
+    return serviciosDelJson;
+  }
 }
 
 // ==== CATEGORIAS ====
@@ -198,10 +197,15 @@ async function traerClientes(rutaAcceso) {
 }
 
 async function traerTodosLosClientes(rutaAcceso) {
-  const clientesdelJson = await traerClientes(rutaAcceso);
-  const clientesDelStorage = leerStorage(CLAVE_CLIENTES, []);
-  const todosLosClientes = combinarDb(clientesdelJson, clientesDelStorage);
-  return todosLosClientes;
+  const clientesDelStorage = leerStorage(CLAVE_CLIENTES, null);
+
+  if (clientesDelStorage !== null) {
+    return clientesDelStorage;
+  } else {
+    const clientesDelJson = await traerClientes(rutaAcceso);
+    guardarEnStorage(CLAVE_CLIENTES, clientesDelJson);
+    return clientesDelJson;
+  }
 }
 
 // ===== HISTORIAL DE COTIZACIONES =====

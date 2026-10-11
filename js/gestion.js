@@ -1,3 +1,7 @@
+/* ============================================
+           JS DEL HISTORIAL.HTML
+   ============================================ */
+
 // ===== CONTENEDORES FILTROS =====
 const selectEstado = document.getElementById('filtro-estado');
 escucharEvento('filtro-estado', 'change', actualizarHistorial);
@@ -207,12 +211,105 @@ async function iniciarHistorial() {
   actualizarHistorial();
 }
 
+/* ============================================
+           JS DEL ADMIN.HTML
+   ============================================ */
+
+// ====== VARIABLES ======
+let serviciosDisponiblesAdmin = [];
+
+// ====== ACTUALIZAR ======
+
+const inputBusquedaAdmin = document.getElementById('buscar-servicio-admin');
+escucharEvento('buscar-servicio-admin', 'input', actualizarServiciosAdmin);
+
+function actualizarServiciosAdmin() {
+  const textoBuscado = formatearTexto(inputBusquedaAdmin.value);
+  const serviciosBuscados = aplicarFiltro(
+    serviciosDisponiblesAdmin,
+    textoBuscado,
+    (servicio) =>
+      formatearTexto(servicio.nombre).includes(textoBuscado) ||
+      formatearTexto(servicio.categoria).includes(textoBuscado),
+  );
+  if (serviciosBuscados.length === 0) {
+    mostrarMensajeVacio(
+      'box-lista-servicios',
+      'No encontramos servicios que coincidan con tu búsqueda. Probá con otro nombre o categoría.',
+    );
+    return;
+  }
+  renderizarLista(
+    serviciosBuscados,
+    crearFilaServiciosAdmin,
+    'box-lista-servicios',
+  );
+}
+
+//  ===== MANIPULACION DE DOM =====
+
+function crearFilaServiciosAdmin(servicio) {
+  return `
+     <article class="fila-admin">
+       <div>
+           <h3 class="fila-servicio-nombre">${servicio.nombre}</h3>
+           <p class="card-text">${servicio.categoria} · por ${servicio.unidad}</p>
+       </div>
+       <div class="fila-admin-controles">
+           <span class="monto">${formatearMoneda(servicio.precio)}</span>
+           <button type="button" data-id="${servicio.id}" class="btn-icono btn-eliminar-servicio-admin" aria-label="Eliminar ${servicio.nombre}">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                   <line x1="18" y1="6" x2="6" y2="18"></line>
+                   <line x1="6" y1="6" x2="18" y2="18"></line>
+               </svg>
+           </button>
+       </div>
+   </article>
+  `;
+}
+
+// ====== BOTONES ======
+
+// BOTON ELIMINA SERVICIO
+
+async function eliminarServicioAdmin(evento) {
+  const btnEliminar = evento.target.closest('.btn-eliminar-servicio-admin');
+  if (btnEliminar) {
+    const idBtnEliminar = Number(btnEliminar.dataset.id);
+    const response = await modalCotizador.fire({
+      icon: 'warning',
+      title: 'Estás a punto de eliminar este servicio.',
+      text: '¿Estás seguro de que querés borrarlo?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar de forma permanente',
+      cancelButtonText: 'Cancelar',
+    });
+    if (response.isConfirmed) {
+      serviciosDisponiblesAdmin = serviciosDisponiblesAdmin.filter(
+        (item) => item.id !== idBtnEliminar,
+      );
+      guardarEnStorage(CLAVE_SERVICIOS, serviciosDisponiblesAdmin);
+      actualizarServiciosAdmin();
+      mostrarAviso('Se eliminó correctamente', 'success');
+    }
+  }
+}
+escucharEvento('box-lista-servicios', 'click', eliminarServicioAdmin);
+
+async function iniciarAdmin() {
+  serviciosDisponiblesAdmin = await traerTodosLosServicios('../');
+  actualizarServiciosAdmin();
+}
+
 function iniciarPagina() {
   const contenedorHistorial = document.getElementById(
     'box-historial-cotizacion',
   );
+  const contenedorServicios = document.getElementById('box-lista-servicios');
   if (contenedorHistorial) {
     iniciarHistorial();
+  } else if (contenedorServicios) {
+    iniciarAdmin();
   }
 }
 
