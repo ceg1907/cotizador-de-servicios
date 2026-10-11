@@ -158,13 +158,14 @@
                         </div>
                         <div>
                             <label for="categoria-servicio">Categoría</label>
-                            <select id="categoria-servicio" name="categoria-servicio" required>
-                                <option value="" disabled selected>Seleccioná una opción...</option>
-                                <option value="desarrollo">Desarrollo</option>
-                                <option value="diseño">Diseño</option>
-                                <option value="marketing">Marketing</option>
-                                <option value="consultoria">Consultoría</option>
-                            </select>
+                            <input type="text" id="categoria-servicio" list="lista-categorias"
+                                placeholder="Elegí una o escribí una nueva..." required>
+                            <datalist id="lista-categorias">
+                                <!-- <option value="desarrollo"></option>
+                                <option value="diseño"></option>
+                                <option value="marketing"></option>
+                                <option value="consultoria"></option> -->
+                            </datalist>
                         </div>
                         <div class="box-fila-doble">
                             <div>
@@ -184,7 +185,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-secundario" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn-primario">Guardar servicio</button>
+                        <button type="submit" class="btn-primario btn-guardar-servicio-admin">Guardar servicio</button>
                     </div>
                 </form>
             </div>

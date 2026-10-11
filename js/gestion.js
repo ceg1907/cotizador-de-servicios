@@ -246,6 +246,11 @@ function actualizarServiciosAdmin() {
   );
 }
 
+function actualizarCategoriasAdmin() {
+  const listadoCategorias = traerCategorias(serviciosDisponiblesAdmin);
+  renderizarLista(listadoCategorias, crearOpcionCategoria, 'lista-categorias');
+}
+
 //  ===== MANIPULACION DE DOM =====
 
 function crearFilaServiciosAdmin(servicio) {
@@ -296,9 +301,42 @@ async function eliminarServicioAdmin(evento) {
 }
 escucharEvento('box-lista-servicios', 'click', eliminarServicioAdmin);
 
+// BOTON GUARDAR NUEVO SERVICIO
+
+function crearNuevoServicio(evento) {
+  const inputNombre = document.getElementById('nombre-servicio');
+  const inputCategoria = document.getElementById('categoria-servicio');
+  const inputPrecio = document.getElementById('precio-servicio');
+  const selectUnidad = document.getElementById('unidad-servicio');
+
+  evento.preventDefault();
+  const nuevoServicio = {
+    id: generarId(),
+    nombre: inputNombre.value.trim(),
+    categoria: inputCategoria.value.toLowerCase().trim(),
+    precio: Number(inputPrecio.value),
+    unidad: selectUnidad.value,
+  };
+
+  serviciosDisponiblesAdmin.push(nuevoServicio);
+  guardarEnStorage(CLAVE_SERVICIOS, serviciosDisponiblesAdmin);
+  actualizarServiciosAdmin();
+  actualizarCategoriasAdmin();
+  mostrarAviso('Servicio cargado correctamente.', 'success');
+
+  const modalServicios = bootstrap.Modal.getOrCreateInstance(
+    document.getElementById('modalNuevoServicio'),
+  );
+  modalServicios.hide();
+  const formulario = document.getElementById('form-servicio');
+  formulario.reset();
+}
+escucharEvento('form-servicio', 'submit', crearNuevoServicio);
+
 async function iniciarAdmin() {
   serviciosDisponiblesAdmin = await traerTodosLosServicios('../');
   actualizarServiciosAdmin();
+  actualizarCategoriasAdmin();
 }
 
 function iniciarPagina() {
