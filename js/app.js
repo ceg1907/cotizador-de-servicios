@@ -178,6 +178,13 @@ function formatearMoneda(numero) {
   return formatoDolares.format(numero);
 }
 
+// FUNCION PARA VALOR IMPUESTO
+
+function obtenerImpuesto() {
+  const datosEmpresa = leerStorage(CLAVE_EMPRESA, {});
+  return datosEmpresa.impuesto ?? IMPUESTO_POR_DEFECTO;
+}
+
 // ===== SERVICIOS =====
 
 async function traerServicios(rutaAcceso) {

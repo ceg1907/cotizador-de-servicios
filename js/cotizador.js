@@ -176,7 +176,7 @@ function mostrarResumenDom(servicios) {
   const { subtotal, descuento, impuesto, total } = calcularTotal(
     servicios,
     DESCUENTO_POR_DEFECTO,
-    IMPUESTO_POR_DEFECTO,
+    obtenerImpuesto(),
   );
   renderizarLista(servicios, crearItemResumen, 'box-items-cotizacion');
 
@@ -236,7 +236,7 @@ btnConfirmar.addEventListener('click', () => {
   const { subtotal, descuento, impuesto, total } = calcularTotal(
     borradorActual.servicios,
     DESCUENTO_POR_DEFECTO,
-    IMPUESTO_POR_DEFECTO,
+    obtenerImpuesto(),
   );
 
   const cotizacionNueva = {
@@ -248,7 +248,7 @@ btnConfirmar.addEventListener('click', () => {
     cliente: borradorActual.cliente,
     servicios: [...borradorActual.servicios],
     porcentajeDescuento: DESCUENTO_POR_DEFECTO,
-    porcentajeImpuesto: IMPUESTO_POR_DEFECTO,
+    porcentajeImpuesto: obtenerImpuesto(),
     subtotal,
     descuento,
     impuesto,
