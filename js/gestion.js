@@ -217,14 +217,19 @@ async function iniciarHistorial() {
 
 // ====== VARIABLES ======
 let serviciosDisponiblesAdmin = [];
+let clientesDisponiblesAdmin = [];
 
 // ====== ACTUALIZAR ======
 
-const inputBusquedaAdmin = document.getElementById('buscar-servicio-admin');
+// PESTAÑA SERVICIOS
+
+const inputBusquedasServiciosAdmin = document.getElementById(
+  'buscar-servicio-admin',
+);
 escucharEvento('buscar-servicio-admin', 'input', actualizarServiciosAdmin);
 
 function actualizarServiciosAdmin() {
-  const textoBuscado = formatearTexto(inputBusquedaAdmin.value);
+  const textoBuscado = formatearTexto(inputBusquedasServiciosAdmin.value);
   const serviciosBuscados = aplicarFiltro(
     serviciosDisponiblesAdmin,
     textoBuscado,
@@ -251,7 +256,40 @@ function actualizarCategoriasAdmin() {
   renderizarLista(listadoCategorias, crearOpcionCategoria, 'lista-categorias');
 }
 
+// PESTAÑA CLIENTES
+
+const inputBusquedaClientesAdmin = document.getElementById(
+  'buscar-cliente-admin',
+);
+escucharEvento('buscar-cliente-admin', 'input', actualizarClientesAdmin);
+
+function actualizarClientesAdmin() {
+  const textoBuscado = formatearTexto(inputBusquedaClientesAdmin.value);
+  const clientesBuscados = aplicarFiltro(
+    clientesDisponiblesAdmin,
+    textoBuscado,
+    (cliente) =>
+      formatearTexto(cliente.nombre).includes(textoBuscado) ||
+      formatearTexto(cliente.email).includes(textoBuscado) ||
+      formatearTexto(cliente.ciudad).includes(textoBuscado),
+  );
+  if (clientesBuscados.length === 0) {
+    mostrarMensajeVacio(
+      'box-lista-clientes',
+      'No encontramos clientes que coincidan con tu búsqueda. Probá con otro nombre, email o ciudad.',
+    );
+    return;
+  }
+  renderizarLista(
+    clientesBuscados,
+    crearFilaClientesAdmin,
+    'box-lista-clientes',
+  );
+}
+
 //  ===== MANIPULACION DE DOM =====
+
+// PESTAÑA SERVICIOS
 
 function crearFilaServiciosAdmin(servicio) {
   return `
@@ -273,9 +311,30 @@ function crearFilaServiciosAdmin(servicio) {
   `;
 }
 
+// PESTAÑA CLIENTES
+function crearFilaClientesAdmin(cliente) {
+  return `
+     <article class="fila-admin">
+       <div>
+           <h3 class="fila-servicio-nombre">${cliente.nombre}</h3>
+           <p class="card-text">${cliente.email} · ${cliente.ciudad || 'sin ciudad'}</p>
+       </div>
+       <div class="fila-admin-controles">
+           <span class="card-text">${cliente.telefono}</span>
+           <button type="button" data-id="${cliente.id}" class="btn-icono btn-eliminar-cliente-admin" aria-label="Eliminar cliente ${cliente.nombre}">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                   <line x1="18" y1="6" x2="6" y2="18"></line>
+                   <line x1="6" y1="6" x2="18" y2="18"></line>
+               </svg>
+           </button>
+       </div>
+   </article>
+  `;
+}
+
 // ====== BOTONES ======
 
-// BOTON ELIMINA SERVICIO
+// BOTON ELIMINA SERVICIO (PESTAÑA SERVICIOS)
 
 async function eliminarServicioAdmin(evento) {
   const btnEliminar = evento.target.closest('.btn-eliminar-servicio-admin');
@@ -295,13 +354,14 @@ async function eliminarServicioAdmin(evento) {
       );
       guardarEnStorage(CLAVE_SERVICIOS, serviciosDisponiblesAdmin);
       actualizarServiciosAdmin();
+      actualizarCategoriasAdmin();
       mostrarAviso('Se eliminó correctamente', 'success');
     }
   }
 }
 escucharEvento('box-lista-servicios', 'click', eliminarServicioAdmin);
 
-// BOTON GUARDAR NUEVO SERVICIO
+// BOTON GUARDAR NUEVO SERVICIO (PESTAÑA SERVICIOS)
 
 function crearNuevoServicio(evento) {
   const inputNombre = document.getElementById('nombre-servicio');
@@ -318,6 +378,19 @@ function crearNuevoServicio(evento) {
     unidad: selectUnidad.value,
   };
 
+  if (nuevoServicio.nombre === '') {
+    mostrarAviso('Escribí el nombre del servicio.');
+    return;
+  }
+  if (nuevoServicio.categoria === '') {
+    mostrarAviso('Escribí o elegí la categoría del servicio.');
+    return;
+  }
+  if (nuevoServicio.precio <= 0) {
+    mostrarAviso('El precio tiene que ser mayor a 0.');
+    return;
+  }
+
   serviciosDisponiblesAdmin.push(nuevoServicio);
   guardarEnStorage(CLAVE_SERVICIOS, serviciosDisponiblesAdmin);
   actualizarServiciosAdmin();
@@ -333,10 +406,84 @@ function crearNuevoServicio(evento) {
 }
 escucharEvento('form-servicio', 'submit', crearNuevoServicio);
 
+// BOTON ELIMINAR CLIENTE (PESTAÑA CLIENTES)
+
+async function eliminarClienteAdmin(evento) {
+  const btnEliminar = evento.target.closest('.btn-eliminar-cliente-admin');
+  if (btnEliminar) {
+    const idBtnEliminar = Number(btnEliminar.dataset.id);
+    const response = await modalCotizador.fire({
+      icon: 'warning',
+      title: 'Estás a punto de eliminar este cliente.',
+      text: '¿Estás seguro de que querés borrarlo? Las cotizaciones que ya confirmaste no se van a modificar.',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar de forma permanente',
+      cancelButtonText: 'Cancelar',
+    });
+    if (response.isConfirmed) {
+      clientesDisponiblesAdmin = clientesDisponiblesAdmin.filter(
+        (item) => item.id !== idBtnEliminar,
+      );
+      guardarEnStorage(CLAVE_CLIENTES, clientesDisponiblesAdmin);
+      actualizarClientesAdmin();
+      mostrarAviso('Se eliminó correctamente.', 'success');
+    }
+  }
+}
+escucharEvento('box-lista-clientes', 'click', eliminarClienteAdmin);
+
+// BOTON GUARDAR NUEVO CLIENTE (PESTAÑA CLIENTES)
+
+function crearNuevoCliente(evento) {
+  const inputNombre = document.getElementById('nombre-cliente');
+  const inputEmail = document.getElementById('email-cliente');
+  const inputTelefono = document.getElementById('telefono-cliente');
+  const inputCiudad = document.getElementById('ciudad-cliente');
+  const inputDireccion = document.getElementById('direccion-cliente');
+
+  evento.preventDefault();
+  const nuevoCliente = {
+    id: generarId(),
+    nombre: inputNombre.value.trim(),
+    email: inputEmail.value.toLowerCase().trim(),
+    telefono: inputTelefono.value.trim(),
+    ciudad: inputCiudad.value.trim(),
+    direccion: inputDireccion.value.trim(),
+  };
+
+  if (nuevoCliente.nombre === '') {
+    mostrarAviso('Escribí el nombre o la empresa del cliente.');
+    return;
+  }
+  if (nuevoCliente.email === '') {
+    mostrarAviso('Debés escribir el email del cliente');
+    return;
+  }
+  if (nuevoCliente.telefono.length < 8) {
+    mostrarAviso('Debés colocar el número de teléfono del cliente valido');
+    return;
+  }
+
+  clientesDisponiblesAdmin.push(nuevoCliente);
+  guardarEnStorage(CLAVE_CLIENTES, clientesDisponiblesAdmin);
+  actualizarClientesAdmin();
+  mostrarAviso('Cliente cargado correctamente.', 'success');
+
+  const modalServicios = bootstrap.Modal.getOrCreateInstance(
+    document.getElementById('modalNuevoCliente'),
+  );
+  modalServicios.hide();
+  const formulario = document.getElementById('form-cliente');
+  formulario.reset();
+}
+escucharEvento('form-cliente', 'submit', crearNuevoCliente);
+
 async function iniciarAdmin() {
   serviciosDisponiblesAdmin = await traerTodosLosServicios('../');
+  clientesDisponiblesAdmin = await traerTodosLosClientes('../');
   actualizarServiciosAdmin();
   actualizarCategoriasAdmin();
+  actualizarClientesAdmin();
 }
 
 function iniciarPagina() {
