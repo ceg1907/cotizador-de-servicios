@@ -11,6 +11,15 @@ const DESCUENTO_POR_DEFECTO = 0;
 
 // ===== FUNCIONES REUTILIZABLES =====
 
+// CAMBIAR NOMBRE DE LA EMPRESA HEADER
+
+function mostrarNombreEmpresa() {
+  const datosEmpresa = leerStorage(CLAVE_EMPRESA, {});
+  const idContenedorNombre = document.getElementById('nombre-empresa-header');
+
+  idContenedorNombre.textContent = datosEmpresa.nombre || 'Nombre empresa';
+}
+
 // CERRAR Y LIMPIAR FORMULARIO
 
 function cerrarYLimpiarModal(idModal, idFormulario) {
@@ -84,6 +93,13 @@ function leerCampo(id) {
   const valor = input.value.trim();
 
   return valor;
+}
+
+// ESCRIBIR DATOS
+
+function escribirCampo(id, valor) {
+  const input = document.getElementById(id);
+  input.value = valor;
 }
 
 // CALCULOS (MONTO,SUBTOTAL, TOTAL)
@@ -267,3 +283,5 @@ function formatearTexto(texto) {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 }
+
+mostrarNombreEmpresa();

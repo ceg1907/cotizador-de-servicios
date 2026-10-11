@@ -364,18 +364,14 @@ escucharEvento('box-lista-servicios', 'click', eliminarServicioAdmin);
 // BOTON GUARDAR NUEVO SERVICIO (PESTAÑA SERVICIOS)
 
 function crearNuevoServicio(evento) {
-  const inputNombre = document.getElementById('nombre-servicio');
-  const inputCategoria = document.getElementById('categoria-servicio');
-  const inputPrecio = document.getElementById('precio-servicio');
-  const selectUnidad = document.getElementById('unidad-servicio');
-
   evento.preventDefault();
+
   const nuevoServicio = {
     id: generarId(),
-    nombre: inputNombre.value.trim(),
-    categoria: inputCategoria.value.toLowerCase().trim(),
-    precio: Number(inputPrecio.value),
-    unidad: selectUnidad.value,
+    nombre: leerCampo('nombre-servicio'),
+    categoria: leerCampo('categoria-servicio').toLowerCase(),
+    precio: Number(leerCampo('precio-servicio')),
+    unidad: leerCampo('unidad-servicio'),
   };
 
   if (nuevoServicio.nombre === '') {
@@ -397,12 +393,7 @@ function crearNuevoServicio(evento) {
   actualizarCategoriasAdmin();
   mostrarAviso('Servicio cargado correctamente.', 'success');
 
-  const modalServicios = bootstrap.Modal.getOrCreateInstance(
-    document.getElementById('modalNuevoServicio'),
-  );
-  modalServicios.hide();
-  const formulario = document.getElementById('form-servicio');
-  formulario.reset();
+  cerrarYLimpiarModal('modalNuevoServicio', 'form-servicio');
 }
 escucharEvento('form-servicio', 'submit', crearNuevoServicio);
 
@@ -463,14 +454,51 @@ function crearNuevoCliente(evento) {
   actualizarClientesAdmin();
   mostrarAviso('Cliente cargado correctamente.', 'success');
 
-  const modalServicios = bootstrap.Modal.getOrCreateInstance(
-    document.getElementById('modalNuevoCliente'),
-  );
-  modalServicios.hide();
-  const formulario = document.getElementById('form-cliente');
-  formulario.reset();
+  cerrarYLimpiarModal('modalNuevoCliente', 'form-cliente');
 }
 escucharEvento('form-cliente', 'submit', crearNuevoCliente);
+
+// FORMULARIO DE EMPRESA (PESTAÑA EMPRESA)
+
+function guardarDatosEmpresa(evento) {
+  evento.preventDefault();
+  const datosEmpresa = {
+    nombre: leerCampo('emp-nombre'),
+    telefono: leerCampo('emp-telefono'),
+    email: leerCampo('emp-email').toLowerCase(),
+    direccion: leerCampo('emp-direccion'),
+    impuesto: Number(leerCampo('emp-impuesto')),
+  };
+
+  if (datosEmpresa.nombre === '') {
+    mostrarAviso('Escribí tu nombre completo o el de la empresa.');
+    return;
+  }
+  if (datosEmpresa.email === '') {
+    mostrarAviso('Debés escribir tu email.');
+    return;
+  }
+  if (datosEmpresa.telefono.length < 8) {
+    mostrarAviso('Debés colocar un número de teléfono válido');
+    return;
+  }
+
+  guardarEnStorage(CLAVE_EMPRESA, datosEmpresa);
+  mostrarAviso('Datos de la empresa cargados correctamente', 'success');
+  mostrarNombreEmpresa();
+}
+escucharEvento('form-empresa', 'submit', guardarDatosEmpresa);
+
+function mostrarDatosEmpresa() {
+  const datosEmpresa = leerStorage(CLAVE_EMPRESA, null);
+  if (datosEmpresa !== null) {
+    escribirCampo('emp-nombre', datosEmpresa.nombre);
+    escribirCampo('emp-telefono', datosEmpresa.telefono);
+    escribirCampo('emp-email', datosEmpresa.email);
+    escribirCampo('emp-direccion', datosEmpresa.direccion);
+    escribirCampo('emp-impuesto', datosEmpresa.impuesto);
+  }
+}
 
 async function iniciarAdmin() {
   serviciosDisponiblesAdmin = await traerTodosLosServicios('../');
@@ -478,6 +506,7 @@ async function iniciarAdmin() {
   actualizarServiciosAdmin();
   actualizarCategoriasAdmin();
   actualizarClientesAdmin();
+  mostrarDatosEmpresa();
 }
 
 function iniciarPagina() {
