@@ -1,17 +1,12 @@
 // ===== CONTENEDORES FILTROS =====
 const selectEstado = document.getElementById('filtro-estado');
-selectEstado.addEventListener('change', () => {
-  actualizarHistorial();
-});
+escucharEvento('filtro-estado', 'change', actualizarHistorial);
+
 const selectCategoria = document.getElementById('filtro-categoria');
-selectCategoria.addEventListener('change', () => {
-  actualizarHistorial();
-});
+escucharEvento('filtro-categoria', 'change', actualizarHistorial);
 
 const inputBusqueda = document.getElementById('filtro-busqueda');
-inputBusqueda.addEventListener('input', () => {
-  actualizarHistorial();
-});
+escucharEvento('filtro-busqueda', 'input', actualizarHistorial);
 
 // FUNCIONES REUTILIZABLES
 
@@ -147,8 +142,7 @@ function crearOpcionCategoria(categoria) {
 
 // ====== BOTONES ======
 
-const idBoxFilaHistorial = document.getElementById('box-historial-cotizacion');
-idBoxFilaHistorial.addEventListener('click', async (evento) => {
+async function eliminarCotizacion(evento) {
   const btnEliminar = evento.target.closest('.btn-eliminar-cotizacion');
   if (btnEliminar) {
     const idBtnEliminar = Number(btnEliminar.dataset.id);
@@ -170,11 +164,12 @@ idBoxFilaHistorial.addEventListener('click', async (evento) => {
       mostrarAviso('Se eliminó correctamente', 'success');
     }
   }
-});
+}
+escucharEvento('box-historial-cotizacion', 'click', eliminarCotizacion);
 
 // Select de ESTADO
 
-idBoxFilaHistorial.addEventListener('change', (evento) => {
+function cambiarEstado(evento) {
   const detectarSelect = evento.target.closest('.select-estado');
 
   if (detectarSelect) {
@@ -188,7 +183,8 @@ idBoxFilaHistorial.addEventListener('change', (evento) => {
 
     actualizarHistorial();
   }
-});
+}
+escucharEvento('box-historial-cotizacion', 'change', cambiarEstado);
 
 // VIGENCIA DE COTIZACION
 
@@ -211,4 +207,13 @@ async function iniciarHistorial() {
   actualizarHistorial();
 }
 
-iniciarHistorial();
+function iniciarPagina() {
+  const contenedorHistorial = document.getElementById(
+    'box-historial-cotizacion',
+  );
+  if (contenedorHistorial) {
+    iniciarHistorial();
+  }
+}
+
+iniciarPagina();

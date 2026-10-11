@@ -11,6 +11,14 @@ const DESCUENTO_POR_DEFECTO = 0;
 
 // ===== FUNCIONES REUTILIZABLES =====
 
+// FUNCION PARA AGRUPAR EVENTOS
+function escucharEvento(id, tipoEvento, funcion) {
+  const elemento = document.getElementById(id);
+  if (elemento) {
+    elemento.addEventListener(tipoEvento, funcion);
+  }
+}
+
 // MENSAJE DE BOX VACIA
 
 function mostrarMensajeVacio(idContenedor, texto, clases) {
