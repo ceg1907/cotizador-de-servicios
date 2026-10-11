@@ -435,20 +435,14 @@ escucharEvento('box-lista-clientes', 'click', eliminarClienteAdmin);
 // BOTON GUARDAR NUEVO CLIENTE (PESTAÑA CLIENTES)
 
 function crearNuevoCliente(evento) {
-  const inputNombre = document.getElementById('nombre-cliente');
-  const inputEmail = document.getElementById('email-cliente');
-  const inputTelefono = document.getElementById('telefono-cliente');
-  const inputCiudad = document.getElementById('ciudad-cliente');
-  const inputDireccion = document.getElementById('direccion-cliente');
-
   evento.preventDefault();
   const nuevoCliente = {
     id: generarId(),
-    nombre: inputNombre.value.trim(),
-    email: inputEmail.value.toLowerCase().trim(),
-    telefono: inputTelefono.value.trim(),
-    ciudad: inputCiudad.value.trim(),
-    direccion: inputDireccion.value.trim(),
+    nombre: leerCampo('nombre-cliente'),
+    email: leerCampo('email-cliente').toLowerCase(),
+    telefono: leerCampo('telefono-cliente'),
+    ciudad: leerCampo('ciudad-cliente'),
+    direccion: leerCampo('direccion-cliente'),
   };
 
   if (nuevoCliente.nombre === '') {

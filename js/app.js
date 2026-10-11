@@ -11,6 +11,17 @@ const DESCUENTO_POR_DEFECTO = 0;
 
 // ===== FUNCIONES REUTILIZABLES =====
 
+// CERRAR Y LIMPIAR FORMULARIO
+
+function cerrarYLimpiarModal(idModal, idFormulario) {
+  const modal = bootstrap.Modal.getOrCreateInstance(
+    document.getElementById(idModal),
+  );
+  modal.hide();
+  const formulario = document.getElementById(idFormulario);
+  formulario.reset();
+}
+
 // FUNCION PARA AGRUPAR EVENTOS
 
 function escucharEvento(id, tipoEvento, funcion) {
@@ -57,7 +68,7 @@ function generarId() {
   return idNuevo;
 }
 
-// LEER DATOS DEL BORRADOR
+// LEER DATOS
 
 function leerBorrador() {
   const borradorGuardado = leerStorage(CLAVE_BORRADOR, {
@@ -66,6 +77,13 @@ function leerBorrador() {
     vigencia: '',
   });
   return borradorGuardado;
+}
+
+function leerCampo(id) {
+  const input = document.getElementById(id);
+  const valor = input.value.trim();
+
+  return valor;
 }
 
 // CALCULOS (MONTO,SUBTOTAL, TOTAL)
