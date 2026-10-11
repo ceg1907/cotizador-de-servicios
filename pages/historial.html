@@ -12,15 +12,19 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs@1.1.9/dist/auto/ring.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script src="../js/app.js" defer></script>
     <script src="../js/gestion.js" defer></script>
 </head>
 
 <body>
+    <div id="box-cargando" class="box-cargando d-none">
+        <l-ring size="40" color="#1F4B43"></l-ring>
+    </div>
     <header>
         <div class="box-titulos">
-            <h1 class="fs-3">Cotizador de Servicios</h1>
+            <h1 class="fs-3"><a href="../index.html">Cotizador de Servicios</a></h1>
             <p id="nombre-empresa-header">Nombre Empresa</p>
         </div>
         <nav aria-label="Navegación principal">

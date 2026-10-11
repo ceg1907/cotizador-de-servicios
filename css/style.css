@@ -73,6 +73,15 @@ header {
     gap: 1rem;
 }
 
+.box-titulos a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.box-titulos a:hover {
+    color: var(--color-acento);
+}
+
 header p {
     margin: 0;
     font-size: 13px;
@@ -745,7 +754,7 @@ label {
 }
 
 /* ============================================
-   ALERTS DE SWEETALERT
+   ALERTS DE SWEETALERT Y LIBRERIAS
    ============================================ */
 .swal2-popup.toast-cotizador {
     background-color: var(--color-superficie);
@@ -787,6 +796,16 @@ label {
 
 .swal2-popup.modal-cotizador .swal2-actions button {
     flex: 1;
+}
+
+.box-cargando {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(244, 245, 243, 0.8);
+    z-index: 2000;
 }
 
 /* ============================================

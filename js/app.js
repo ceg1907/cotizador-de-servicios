@@ -155,6 +155,16 @@ const modalCotizador = Swal.mixin({
   },
 });
 
+// LOADER
+
+function cargarLoader(cargando) {
+  const boxLoader = document.getElementById('box-cargando');
+
+  cargando === true
+    ? boxLoader.classList.remove('d-none')
+    : boxLoader.classList.add('d-none');
+}
+
 // FUNCION CREAR FILAS
 
 function renderizarLista(items, crearFila, idContenedor) {
@@ -193,11 +203,24 @@ async function traerServicios(rutaAcceso) {
       rutaAcceso === undefined
         ? 'data/servicios.json'
         : rutaAcceso + 'data/servicios.json';
+
+    cargarLoader(true);
     const serviciosDb = await fetch(rutaCompleta);
+    if (!serviciosDb.ok) {
+      throw new Error('No se pudo cargar el archivo');
+    }
     const servicios = await serviciosDb.json();
     return servicios;
   } catch (error) {
-    console.error(error);
+    modalCotizador.fire({
+      icon: 'error',
+      title: 'No pudimos cargar los servicios',
+      text: 'Revisá tu conexión y volvé a cargar la página.',
+      confirmButtonText: 'Entendido',
+    });
+    return null;
+  } finally {
+    cargarLoader(false);
   }
 }
 
@@ -208,6 +231,9 @@ async function traerTodosLosServicios(rutaAcceso) {
     return serviciosDelStorage;
   } else {
     const serviciosDelJson = await traerServicios(rutaAcceso);
+    if (serviciosDelJson === null) {
+      return [];
+    }
     guardarEnStorage(CLAVE_SERVICIOS, serviciosDelJson);
     return serviciosDelJson;
   }
@@ -229,11 +255,24 @@ async function traerClientes(rutaAcceso) {
       rutaAcceso === undefined
         ? 'data/clientes.json'
         : rutaAcceso + 'data/clientes.json';
+
+    cargarLoader(true);
     const clientesDb = await fetch(rutaCompleta);
+    if (!clientesDb.ok) {
+      throw new Error('No se pudo cargar el archivo');
+    }
     const clientes = await clientesDb.json();
     return clientes;
   } catch (error) {
-    console.error(error);
+    modalCotizador.fire({
+      icon: 'error',
+      title: 'No pudimos cargar los clientes',
+      text: 'Revisá tu conexión y volvé a cargar la página.',
+      confirmButtonText: 'Entendido',
+    });
+    return null;
+  } finally {
+    cargarLoader(false);
   }
 }
 
@@ -244,6 +283,9 @@ async function traerTodosLosClientes(rutaAcceso) {
     return clientesDelStorage;
   } else {
     const clientesDelJson = await traerClientes(rutaAcceso);
+    if (clientesDelJson === null) {
+      return [];
+    }
     guardarEnStorage(CLAVE_CLIENTES, clientesDelJson);
     return clientesDelJson;
   }
