@@ -3,24 +3,24 @@
     "id": 1,
     "nombre": "Librería El Lector",
     "email": "pedidos@libreriaellector.com",
-    "telefono": "2611-4480",
-    "ciudad": "Santa Tecla",
-    "direccion": "Calle Chiltiupán 212"
+    "telefono": "11 4832-5590",
+    "ciudad": "CABA",
+    "direccion": "Av. Corrientes 1842"
   },
   {
     "id": 2,
     "nombre": "María Gómez",
     "email": "maria@email.com",
-    "telefono": "2333-2222",
-    "ciudad": "Santa Ana",
-    "direccion": "Calle Norte 45"
+    "telefono": "351 456-2218",
+    "ciudad": "Córdoba",
+    "direccion": "Bv. San Juan 455"
   },
   {
     "id": 3,
     "nombre": "Pastelería Dulce Hogar",
     "email": "contacto@dulcehogar.com",
-    "telefono": "2555-1189",
-    "ciudad": "San Miguel",
-    "direccion": "Boulevard del Ejército km 3"
+    "telefono": "341 527-3364",
+    "ciudad": "Rosario",
+    "direccion": "Bv. Oroño 1230"
   }
 ]
