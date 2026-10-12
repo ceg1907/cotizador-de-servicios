@@ -214,6 +214,7 @@ label {
 .btn-primario {
     background-color: var(--color-acento);
     color: var(--color-superficie);
+    transition: all 0.1s ease;
 }
 
 .btn-primario:hover {
@@ -222,12 +223,24 @@ label {
 
 .btn-secundario {
     background-color: transparent;
-    color: var(--color-texto-secundario);
-    border: 1px solid var(--color-borde);
+    color: var(--color-acento);
+    border: 1px solid var(--color-acento);
+    transition: background-color 0.1s ease, border-color 0.1s ease;
 }
 
 .btn-secundario:hover {
-    background-color: var(--color-fondo);
+    background-color: var(--color-acento-suave);
+    border-color: var(--color-acento-hover);
+}
+
+.btn-peligro {
+    color: var(--color-vencida);
+    border-color: var(--color-vencida);
+}
+
+.btn-peligro:hover {
+    background-color: var(--color-vencida-fondo);
+    border-color: var(--color-vencida);
 }
 
 .btn-link {

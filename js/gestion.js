@@ -453,7 +453,25 @@ function crearNuevoCliente(evento) {
 }
 escucharEvento('form-cliente', 'submit', crearNuevoCliente);
 
-// FORMULARIO DE EMPRESA (PESTAÑA EMPRESA)
+// BOTONES RESETEAR DATOS
+
+async function restablecerDatos() {
+  const response = await modalCotizador.fire({
+    icon: 'warning',
+    title: 'Estás a punto de restablecer los datos.',
+    text: '¿Estás seguro de que querés borrarlos?',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, borrar de forma permanente',
+    cancelButtonText: 'Cancelar',
+  });
+  if (response.isConfirmed) {
+    localStorage.clear();
+    location.reload();
+  }
+}
+escucharEvento('btn-restablecer-datos', 'click', restablecerDatos);
+
+// ===== FORMULARIO DE EMPRESA (PESTAÑA EMPRESA) =====
 
 function guardarDatosEmpresa(evento) {
   evento.preventDefault();
