@@ -309,6 +309,169 @@ function generarNumeroCotizacion() {
   }
 }
 
+// ====== FUNCION GENERAR PDF =====
+
+function generarPdfCotizacion(cotizacion) {
+  const {
+    numeroCotizacion,
+    fecha,
+    cliente,
+    servicios,
+    porcentajeImpuesto,
+    impuesto,
+    subtotal,
+    total,
+    validoHasta,
+  } = cotizacion;
+  const { nombre, email, telefono, direccion, ciudad } = cliente;
+
+  const datosEmpresa = leerStorage(CLAVE_EMPRESA, {});
+  const {
+    nombre: nombreEmpresa,
+    telefono: telefonoEmpresa,
+    email: emailEmpresa,
+    direccion: direccionEmpresa,
+  } = datosEmpresa;
+  const datosContacto = [telefonoEmpresa, emailEmpresa, direccionEmpresa]
+    .filter((dato) => dato)
+    .join(' | ');
+
+  const { jsPDF } = window.jspdf;
+  const documento = new jsPDF();
+
+  // Título
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(28);
+  documento.setTextColor('#1F4B43');
+  documento.text('COTIZACIÓN', 105, 30, { align: 'center' });
+
+  // Número
+  documento.setFontSize(14);
+  documento.text(formatearNumeroCotizacion(numeroCotizacion), 105, 39, {
+    align: 'center',
+  });
+
+  // Fecha
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(10);
+  documento.setTextColor('#5B6472');
+  documento.text(`Fecha: ${formatearFecha(fecha)}`, 105, 46, {
+    align: 'center',
+  });
+
+  // Datos cliente
+
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(11);
+  documento.setTextColor('#1F4B43');
+  documento.text('CLIENTE', 20, 62);
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(10);
+  documento.setTextColor('#34383b');
+  documento.text(`Nombre: ${nombre}`, 20, 69);
+  documento.text(`Email: ${email}`, 20, 75);
+  documento.text(`Teléfono: ${telefono}`, 20, 81);
+  documento.text(
+    `Dirección: ${direccion || 'sin especificar'}, ${ciudad || 'ciudad no especificada'}`,
+    20,
+    87,
+  );
+
+  // Tabla de servicios cotizados
+
+  documento.autoTable({
+    startY: 97,
+    margin: { left: 20, right: 20 },
+    head: [['Servicio', 'Cantidad', 'Precio', 'Subtotal']],
+    body: servicios.map((servicio) => [
+      servicio.nombre,
+      formatearCantidad(servicio.cantidad, servicio.unidad),
+      formatearMoneda(servicio.precio),
+      formatearMoneda(calcularMonto(servicio)),
+    ]),
+    theme: 'grid',
+    styles: {
+      font: 'helvetica',
+      fontSize: 10,
+      textColor: '#34383b',
+      lineColor: '#DDE1DC',
+      cellPadding: 3,
+    },
+    headStyles: {
+      fillColor: '#1F4B43',
+      textColor: '#FFFFFF',
+      fontStyle: 'bold',
+      halign: 'center',
+    },
+    alternateRowStyles: { fillColor: '#E7EEEC' },
+    columnStyles: {
+      1: { halign: 'center' },
+      2: { halign: 'right' },
+      3: { halign: 'right' },
+    },
+  });
+
+  const finTabla = documento.lastAutoTable.finalY;
+
+  // Caja de totales
+  documento.setFillColor('#E7EEEC');
+  documento.rect(120, finTabla + 6, 70, 28, 'F');
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(10);
+  documento.setTextColor('#34383b');
+  documento.text('Subtotal', 125, finTabla + 13);
+  documento.text(formatearMoneda(subtotal), 185, finTabla + 13, {
+    align: 'right',
+  });
+  documento.text(`IVA (${porcentajeImpuesto}%)`, 125, finTabla + 20);
+  documento.text(formatearMoneda(impuesto), 185, finTabla + 20, {
+    align: 'right',
+  });
+
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(12);
+  documento.setTextColor('#1F4B43');
+  documento.text('Total', 125, finTabla + 29);
+  documento.setTextColor('#C98A3B');
+  documento.text(formatearMoneda(total), 185, finTabla + 29, {
+    align: 'right',
+  });
+
+  // Validez
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(9);
+  documento.setTextColor('#5B6472');
+  documento.text(
+    `Cotización válida hasta el ${formatearFecha(validoHasta)}. Pasada esa fecha, deberá solicitar una nueva cotización y los precios pueden variar.`,
+    20,
+    finTabla + 13,
+    { maxWidth: 90 },
+  );
+
+  // Pie de cotizacion
+
+  documento.setDrawColor('#DDE1DC');
+  documento.line(20, 270, 190, 270);
+
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(10);
+  documento.setTextColor('#1F4B43');
+  documento.text(nombreEmpresa || 'Nombre empresa', 105, 277, {
+    align: 'center',
+  });
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(9);
+  documento.setTextColor('#5B6472');
+  documento.text(datosContacto || 'No hay una empresa registrada.', 105, 283, {
+    align: 'center',
+  });
+
+  documento.save(formatearNumeroCotizacion(numeroCotizacion) + '.pdf');
+}
+
 // ===== FORMATEADORES =====
 
 // NUMEROS
@@ -331,6 +494,18 @@ function formatearTexto(texto) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
+}
+
+// CANTIDAD
+function formatearCantidad(cantidad, tipoUnidad) {
+  const ultimaLetra = tipoUnidad[tipoUnidad.length - 1];
+  if (cantidad === 1) {
+    return `${cantidad} ${tipoUnidad}`;
+  } else if ('aeiou'.includes(ultimaLetra)) {
+    return `${cantidad} ${tipoUnidad}s`;
+  } else {
+    return `${cantidad} ${tipoUnidad}es`;
+  }
 }
 
 mostrarNombreEmpresa();

@@ -151,6 +151,21 @@ async function eliminarCotizacion(evento) {
 }
 escucharEvento('box-historial-cotizacion', 'click', eliminarCotizacion);
 
+function descargarPdfCotizacion(evento) {
+  const btnDescargar = evento.target.closest('.btn-pdf-cotizacion');
+  if (btnDescargar) {
+    const idBtnDescargar = Number(btnDescargar.dataset.id);
+    const leerHistorial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
+    const cotizacionSeleccionada = leerHistorial.find(
+      (item) => item.id === idBtnDescargar,
+    );
+    generarPdfCotizacion(cotizacionSeleccionada);
+
+    mostrarAviso('Se descargó correctamente', 'success');
+  }
+}
+escucharEvento('box-historial-cotizacion', 'click', descargarPdfCotizacion);
+
 // Select de ESTADO
 
 function cambiarEstado(evento) {
