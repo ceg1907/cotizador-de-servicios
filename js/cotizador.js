@@ -5,6 +5,8 @@ let clientesDisponibles = [];
 
 // ===== FUNCIONES REUTILIZABLES =====
 
+// ACTUALIZAR DATOS Y DOM (COTIZADOR)
+
 function actualizarCotizacion() {
   const borradorActual = leerBorrador();
   mostrarClienteDom(borradorActual.cliente);
@@ -12,16 +14,19 @@ function actualizarCotizacion() {
   mostrarResumenDom(borradorActual.servicios);
 }
 
+// RESETEAR VALORES DEL COTIZADOR
+
 function resetearCotizador() {
   localStorage.removeItem(CLAVE_BORRADOR);
   inputVigencia.value = '';
   actualizarCotizacion();
 }
 
-// ===== DOM MODAL COTIZADOR=====
+// ===== DOM COTIZADOR (MODAL) =====
+
+// CREAR FILA (MODAL)
 
 function crearFilaServicio(servicio) {
-  // MODAL AGREGAR SERVICIO
   return `    
     <div class="fila-resultado">
       <div>
@@ -40,7 +45,7 @@ function mostrarServiciosDom(servicios) {
   renderizarLista(servicios, crearFilaServicio, 'box-resultados-servicios');
 }
 
-// Boton agregar servicio en modal
+// BOTÓN AGREGAR SERVICIO (MODAL)
 
 const contenedorModal = document.getElementById('box-resultados-servicios');
 contenedorModal.addEventListener('click', (evento) => {
@@ -58,7 +63,7 @@ contenedorModal.addEventListener('click', (evento) => {
     const inputServicio = detectarInputServicio.querySelector('input');
     const valorConvertido = Number(inputServicio.value);
     if (valorConvertido < 1) {
-      mostrarAviso('La cantidad mínima es 1');
+      mostrarAviso('La cantidad mínima es 1.');
       return;
     }
     agregarServicioAlBorrador(servicioEncontrado, valorConvertido);
@@ -68,6 +73,8 @@ contenedorModal.addEventListener('click', (evento) => {
 });
 
 // =====  DOM COTIZADOR =====
+
+// AGREGAR SERVICIOS AL BORRADOR
 
 function agregarServicioAlBorrador(servicio, valorCantidad) {
   const borradorActual = leerBorrador();
@@ -83,6 +90,8 @@ function agregarServicioAlBorrador(servicio, valorCantidad) {
   borradorActual.servicios.push(itemNuevo);
   guardarEnStorage(CLAVE_BORRADOR, borradorActual);
 }
+
+// CREAR LA FILA EN EL DOM DEL BORRADOR
 
 function crearFilaCotizacion(servicio) {
   const subtotal = calcularMonto(servicio);
@@ -109,7 +118,7 @@ function crearFilaCotizacion(servicio) {
   `;
 }
 
-// Modificar total con el input
+// MODIFICAR TOTAL CON INPUT
 
 const boxFilaCotizador = document.getElementById('box-lista-cotizacion');
 boxFilaCotizador.addEventListener('change', (evento) => {
@@ -125,7 +134,7 @@ boxFilaCotizador.addEventListener('change', (evento) => {
     if (itemEncontrado) {
       if (valueInput < 1) {
         valueInput = 1;
-        mostrarAviso('La cantidad mínima es 1');
+        mostrarAviso('La cantidad mínima es 1.');
       }
       itemEncontrado.cantidad = valueInput;
       guardarEnStorage(CLAVE_BORRADOR, borradorActual);
@@ -135,7 +144,7 @@ boxFilaCotizador.addEventListener('change', (evento) => {
   }
 });
 
-// Boton para quitar el servicio de la fila
+// BOTON QUITAR SERVICIO DE LA FILA
 
 boxFilaCotizador.addEventListener('click', (evento) => {
   const detectarBtnEliminar = evento.target.closest('.btn-quitar-servicio');
@@ -150,6 +159,8 @@ boxFilaCotizador.addEventListener('click', (evento) => {
   }
 });
 
+// MENSAJE POR SI LA COTIZACIÓN ESTA VACÍA
+
 function mostrarCotizacionDom(servicios) {
   if (servicios.length === 0) {
     mostrarMensajeVacio(
@@ -161,7 +172,9 @@ function mostrarCotizacionDom(servicios) {
   renderizarLista(servicios, crearFilaCotizacion, 'box-lista-cotizacion');
 }
 
-// RESUMEN DEL COTIZADOR (ASIDE)
+// ===== RESUMEN DEL COTIZADOR (ASIDE) =====
+
+// MOSTRAR EN RESUMEN LOS SERVICIOS SELECCIONADOS
 
 function crearItemResumen(servicio) {
   const montoServicios = calcularMonto(servicio);
@@ -189,7 +202,7 @@ function mostrarResumenDom(servicios) {
   document.getElementById('num-total').textContent = formatearMoneda(total);
 }
 
-// Input fecha de vigencia
+// INPUT FECHA DE VIGENCIA
 const inputVigencia = document.getElementById('fecha-vigencia');
 inputVigencia.addEventListener('change', () => {
   const borradorActual = leerBorrador();
@@ -197,7 +210,7 @@ inputVigencia.addEventListener('change', () => {
   guardarEnStorage(CLAVE_BORRADOR, borradorActual);
 });
 
-// Boton vaciar cotizacion (ASIDE)
+// BOTÓN VACIAR COTIZACIÓN (ASIDE)
 const btnVaciar = document.getElementById('btn-vaciar');
 btnVaciar.addEventListener('click', async () => {
   const response = await modalCotizador.fire({
@@ -213,24 +226,24 @@ btnVaciar.addEventListener('click', async () => {
   }
 });
 
-// Boton confirmar cotizacion (ASIDE)
+// BOTON CONFIRMAR COTIZACIÓN (ASIDE)
 const btnConfirmar = document.getElementById('btn-confirmar');
 btnConfirmar.addEventListener('click', async () => {
   const borradorActual = leerBorrador();
   if (borradorActual.cliente === null) {
-    mostrarAviso('Seleccioná un cliente para continuar');
+    mostrarAviso('Seleccioná un cliente para continuar.');
     return;
   }
   if (borradorActual.servicios.length === 0) {
-    mostrarAviso('Debés seleccionar como mínimo 1 servicio');
+    mostrarAviso('Agregá al menos un servicio.');
     return;
   }
   if (inputVigencia.value === '') {
-    mostrarAviso('Debés colocar una fecha');
+    mostrarAviso('Elegí hasta qué fecha es válida la cotización.');
     return;
   }
   if (borradorActual.vigencia < inputVigencia.min) {
-    mostrarAviso('La fecha no puede ser anterior a hoy');
+    mostrarAviso('La fecha no puede ser anterior a hoy.');
     return;
   }
   const { subtotal, descuento, impuesto, total } = calcularTotal(
@@ -271,7 +284,8 @@ btnConfirmar.addEventListener('click', async () => {
     generarPdfCotizacion(cotizacionNueva);
   }
 });
-// ARMADO BOX CLIENTES
+
+// ARMADO FILA CLIENTES
 
 function crearFilaCliente(cliente) {
   return `
@@ -287,7 +301,7 @@ function crearFilaCliente(cliente) {
   `;
 }
 
-// Boton seleccionar cliente (MODAL)
+// BOTÓN SELECCIONAR CLIENTE (MODAL)
 
 const contenedorClientes = document.getElementById('box-resultados-clientes');
 contenedorClientes.addEventListener('click', (evento) => {
@@ -308,7 +322,7 @@ contenedorClientes.addEventListener('click', (evento) => {
   }
 });
 
-// Boton quitar cliente (TARJETA)
+// BOTÓN QUITAR CLIENTE (TARJETA)
 const boxClienteDinamico = document.getElementById('box-cliente-dinamico');
 boxClienteDinamico.addEventListener('click', (evento) => {
   const detectarBtnQuitar = evento.target.closest('.btn-quitar-cliente');
@@ -337,6 +351,8 @@ function crearTarjetaCliente(cliente) {
           `;
 }
 
+// MENSAJE SI NO HAY CLIENTE CARGADO
+
 function mostrarClienteDom(cliente) {
   const boxClientes = document.getElementById('box-cliente-dinamico');
 
@@ -350,6 +366,8 @@ function mostrarClienteDom(cliente) {
   }
   boxClientes.innerHTML = crearTarjetaCliente(cliente);
 }
+
+// ====== FUNCIONES INICIADORAS =====
 
 async function iniciarCotizador() {
   serviciosDisponibles = await traerTodosLosServicios();

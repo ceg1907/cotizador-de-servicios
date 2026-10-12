@@ -177,7 +177,7 @@ function renderizarLista(items, crearFila, idContenedor) {
   idBox.innerHTML = itemsDom;
 }
 
-// ===== FORMATO DE MONEDA =====
+// FORMATO DE MONEDA
 
 const formatoDolares = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -196,6 +196,8 @@ function obtenerImpuesto() {
 }
 
 // ===== SERVICIOS =====
+
+// FETCH SERVICIOS
 
 async function traerServicios(rutaAcceso) {
   try {
@@ -224,6 +226,8 @@ async function traerServicios(rutaAcceso) {
   }
 }
 
+// GUARDAR SERVICIOS
+
 async function traerTodosLosServicios(rutaAcceso) {
   const serviciosDelStorage = leerStorage(CLAVE_SERVICIOS, null);
 
@@ -248,6 +252,8 @@ function traerCategorias(servicios) {
 }
 
 // ===== CLIENTES =====
+
+// FETCH CLIENTES
 
 async function traerClientes(rutaAcceso) {
   try {
@@ -275,6 +281,8 @@ async function traerClientes(rutaAcceso) {
     cargarLoader(false);
   }
 }
+
+// GUARDAR CLIENTES
 
 async function traerTodosLosClientes(rutaAcceso) {
   const clientesDelStorage = leerStorage(CLAVE_CLIENTES, null);

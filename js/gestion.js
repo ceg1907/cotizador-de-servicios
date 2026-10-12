@@ -14,10 +14,14 @@ escucharEvento('filtro-busqueda', 'input', actualizarHistorial);
 
 // FUNCIONES REUTILIZABLES
 
+// FILTROS DE HISTORIAL (SELEC Y BUSCADOR)
+
 function aplicarFiltro(lista, valor, condicion) {
   const listaFiltrada = valor === 'todos' ? lista : lista.filter(condicion);
   return listaFiltrada;
 }
+
+// FUNCION PARA ACTUALIZAR DATOS Y DOM
 
 function actualizarHistorial() {
   const historial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
@@ -68,7 +72,7 @@ function actualizarHistorial() {
   );
 }
 
-// FORMATEADORES
+// FORMATEADOR DE CATEGORIA
 
 function formatearCategorias(servicios) {
   const categorias = traerCategorias(servicios);
@@ -77,7 +81,9 @@ function formatearCategorias(servicios) {
   return textoCategorias;
 }
 
-// ===== CREACION DE HTML =====
+// ===== CREACION DE HTML EN (HISTORIAL) =====
+
+// TARJETA DE COTIZACIÓN
 
 function crearTarjetaCotizacion(cotizacion) {
   const estadoVisible = obtenerEstadoVisible(cotizacion);
@@ -118,6 +124,8 @@ function crearTarjetaCotizacion(cotizacion) {
   `;
 }
 
+// CATEGORIA (SELECT)
+
 function crearOpcionCategoria(categoria) {
   return `
           <option value="${categoria}">${categoria}</option>
@@ -125,6 +133,8 @@ function crearOpcionCategoria(categoria) {
 }
 
 // ====== BOTONES ======
+
+// ELIMINAR COTIZACIÓN
 
 async function eliminarCotizacion(evento) {
   const btnEliminar = evento.target.closest('.btn-eliminar-cotizacion');
@@ -145,11 +155,13 @@ async function eliminarCotizacion(evento) {
       );
       guardarEnStorage(CLAVE_HISTORIAL_COTIZACIONES, historialActualizado);
       actualizarHistorial();
-      mostrarAviso('Se eliminó correctamente', 'success');
+      mostrarAviso('Cotización eliminada.', 'success');
     }
   }
 }
 escucharEvento('box-historial-cotizacion', 'click', eliminarCotizacion);
+
+// EVENTO DESCARGAR PDF
 
 function descargarPdfCotizacion(evento) {
   const btnDescargar = evento.target.closest('.btn-pdf-cotizacion');
@@ -161,12 +173,12 @@ function descargarPdfCotizacion(evento) {
     );
     generarPdfCotizacion(cotizacionSeleccionada);
 
-    mostrarAviso('Se descargó correctamente', 'success');
+    mostrarAviso('PDF descargado.', 'success');
   }
 }
 escucharEvento('box-historial-cotizacion', 'click', descargarPdfCotizacion);
 
-// Select de ESTADO
+// SELECT ESTADO
 
 function cambiarEstado(evento) {
   const detectarSelect = evento.target.closest('.select-estado');
@@ -350,7 +362,7 @@ async function eliminarServicioAdmin(evento) {
       guardarEnStorage(CLAVE_SERVICIOS, serviciosDisponiblesAdmin);
       actualizarServiciosAdmin();
       actualizarCategoriasAdmin();
-      mostrarAviso('Se eliminó correctamente', 'success');
+      mostrarAviso('Servicio eliminado.', 'success');
     }
   }
 }
@@ -386,7 +398,7 @@ function crearNuevoServicio(evento) {
   guardarEnStorage(CLAVE_SERVICIOS, serviciosDisponiblesAdmin);
   actualizarServiciosAdmin();
   actualizarCategoriasAdmin();
-  mostrarAviso('Servicio cargado correctamente.', 'success');
+  mostrarAviso('Servicio agregado.', 'success');
 
   cerrarYLimpiarModal('modalNuevoServicio', 'form-servicio');
 }
@@ -412,7 +424,7 @@ async function eliminarClienteAdmin(evento) {
       );
       guardarEnStorage(CLAVE_CLIENTES, clientesDisponiblesAdmin);
       actualizarClientesAdmin();
-      mostrarAviso('Se eliminó correctamente.', 'success');
+      mostrarAviso('Cliente eliminado.', 'success');
     }
   }
 }
@@ -436,11 +448,11 @@ function crearNuevoCliente(evento) {
     return;
   }
   if (nuevoCliente.email === '') {
-    mostrarAviso('Debés escribir el email del cliente');
+    mostrarAviso('Escribí el email del cliente.');
     return;
   }
   if (nuevoCliente.telefono.length < 8) {
-    mostrarAviso('Debés colocar el número de teléfono del cliente valido');
+    mostrarAviso('Escribí un teléfono válido.');
     return;
   }
 
@@ -473,6 +485,8 @@ escucharEvento('btn-restablecer-datos', 'click', restablecerDatos);
 
 // ===== FORMULARIO DE EMPRESA (PESTAÑA EMPRESA) =====
 
+// EVENTO GUARDAR DATOS EN EL FORMULARIO
+
 function guardarDatosEmpresa(evento) {
   evento.preventDefault();
   const datosEmpresa = {
@@ -488,19 +502,21 @@ function guardarDatosEmpresa(evento) {
     return;
   }
   if (datosEmpresa.email === '') {
-    mostrarAviso('Debés escribir tu email.');
+    mostrarAviso('Escribí el email de la empresa.');
     return;
   }
   if (datosEmpresa.telefono.length < 8) {
-    mostrarAviso('Debés colocar un número de teléfono válido');
+    mostrarAviso('Escribí un teléfono válido.');
     return;
   }
 
   guardarEnStorage(CLAVE_EMPRESA, datosEmpresa);
-  mostrarAviso('Datos de la empresa cargados correctamente', 'success');
+  mostrarAviso('Datos de la empresa guardados.', 'success');
   mostrarNombreEmpresa();
 }
 escucharEvento('form-empresa', 'submit', guardarDatosEmpresa);
+
+// MOSTRAR DATOS EN EL FORMULARIO
 
 function mostrarDatosEmpresa() {
   const datosEmpresa = leerStorage(CLAVE_EMPRESA, null);
@@ -512,6 +528,8 @@ function mostrarDatosEmpresa() {
     escribirCampo('emp-impuesto', datosEmpresa.impuesto);
   }
 }
+
+//  ====== FUNCIONES INICIADORAS ======
 
 async function iniciarAdmin() {
   serviciosDisponiblesAdmin = await traerTodosLosServicios('../');
