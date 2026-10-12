@@ -215,7 +215,7 @@ btnVaciar.addEventListener('click', async () => {
 
 // Boton confirmar cotizacion (ASIDE)
 const btnConfirmar = document.getElementById('btn-confirmar');
-btnConfirmar.addEventListener('click', () => {
+btnConfirmar.addEventListener('click', async () => {
   const borradorActual = leerBorrador();
   if (borradorActual.cliente === null) {
     mostrarAviso('Seleccioná un cliente para continuar');
@@ -259,7 +259,17 @@ btnConfirmar.addEventListener('click', () => {
   historial.push(cotizacionNueva);
   guardarEnStorage(CLAVE_HISTORIAL_COTIZACIONES, historial);
   resetearCotizador();
-  mostrarAviso('Cotización confirmada');
+  const response = await modalCotizador.fire({
+    icon: 'success',
+    title: '¡Cotización confirmada!',
+    text: 'Se guardó en el historial. ¿Querés descargar el PDF ahora?',
+    showCancelButton: true,
+    confirmButtonText: 'Descargar PDF',
+    cancelButtonText: 'Entendido',
+  });
+  if (response.isConfirmed) {
+    generarPdfCotizacion(cotizacionNueva);
+  }
 });
 // ARMADO BOX CLIENTES
 
