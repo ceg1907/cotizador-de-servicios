@@ -504,6 +504,12 @@ label {
     flex-shrink: 0;
 }
 
+.fila-servicio-controles .monto {
+    min-width: 14ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
 .box-cantidad-inline {
     display: flex;
     align-items: center;
