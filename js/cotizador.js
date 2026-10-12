@@ -31,7 +31,7 @@ function crearFilaServicio(servicio) {
     <div class="fila-resultado">
       <div>
         <h3 class="fila-servicio-nombre">${servicio.nombre}</h3>
-        <p class="card-text">${servicio.categoria} · USD ${servicio.precio} / ${servicio.unidad}</p>
+        <p class="card-text">${servicio.categoria} · ${formatearMoneda(servicio.precio)} / ${servicio.unidad}</p>
       </div>
       <div class="fila-resultado-controles">
         <input type="number" value="1" min="1">
@@ -99,7 +99,7 @@ function crearFilaCotizacion(servicio) {
     <article class="fila-servicio-cotizacion">
         <div>
             <h3 class="fila-servicio-nombre">${servicio.nombre}</h3>
-            <p class="card-text">${servicio.categoria} · USD ${servicio.precio} / ${servicio.unidad}</p>
+            <p class="card-text">${servicio.categoria} · ${formatearMoneda(servicio.precio)} / ${servicio.unidad}</p>
         </div>
         <div class="fila-servicio-controles">
             <div class="box-cantidad-inline">

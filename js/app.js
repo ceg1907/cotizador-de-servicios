@@ -5,6 +5,7 @@ const CLAVE_CLIENTES = 'clientesCargados';
 const CLAVE_HISTORIAL_COTIZACIONES = 'historialCotizaciones';
 const CLAVE_BORRADOR = 'borradorEnCurso';
 const CLAVE_EMPRESA = 'datosEmpresa';
+const CLAVE_MONEDA = 'monedaSeleccionada';
 
 const IMPUESTO_POR_DEFECTO = 21;
 const DESCUENTO_POR_DEFECTO = 0;
@@ -183,9 +184,25 @@ const formatoDolares = new Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'USD',
 });
+const formatoArs = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+});
 
 function formatearMoneda(numero) {
-  return formatoDolares.format(numero);
+  const monedaGuardada = leerStorage(CLAVE_MONEDA, {});
+  const { moneda, cotizacion } = monedaGuardada;
+  const tipoMoneda = moneda === 'ARS' ? formatoArs : formatoDolares;
+  return tipoMoneda.format((cotizacion || 1) * numero);
+}
+
+function marcarMoneda() {
+  const monedaGuardada = leerStorage(CLAVE_MONEDA, {});
+  const btnArs = document.getElementById('btn-moneda-ars');
+  const btnUsd = document.getElementById('btn-moneda-usd');
+  const botonActivo = monedaGuardada.moneda === 'ARS' ? btnArs : btnUsd;
+
+  botonActivo.classList.add('btn-moneda-activo');
 }
 
 // FUNCION PARA VALOR IMPUESTO
@@ -195,9 +212,9 @@ function obtenerImpuesto() {
   return datosEmpresa.impuesto ?? IMPUESTO_POR_DEFECTO;
 }
 
-// ===== SERVICIOS =====
+// ===== FETCH =====
 
-// FETCH SERVICIOS
+// SERVICIOS
 
 async function traerServicios(rutaAcceso) {
   try {
@@ -226,8 +243,6 @@ async function traerServicios(rutaAcceso) {
   }
 }
 
-// GUARDAR SERVICIOS
-
 async function traerTodosLosServicios(rutaAcceso) {
   const serviciosDelStorage = leerStorage(CLAVE_SERVICIOS, null);
 
@@ -243,17 +258,7 @@ async function traerTodosLosServicios(rutaAcceso) {
   }
 }
 
-// ==== CATEGORIAS ====
-
-function traerCategorias(servicios) {
-  let categorias = servicios.map((servicio) => servicio.categoria);
-  categorias = [...new Set(categorias)];
-  return categorias;
-}
-
-// ===== CLIENTES =====
-
-// FETCH CLIENTES
+// CLIENTES
 
 async function traerClientes(rutaAcceso) {
   try {
@@ -269,7 +274,7 @@ async function traerClientes(rutaAcceso) {
     }
     const clientes = await clientesDb.json();
     return clientes;
-  } catch (error) {
+  } catch {
     modalCotizador.fire({
       icon: 'error',
       title: 'No pudimos cargar los clientes',
@@ -281,8 +286,6 @@ async function traerClientes(rutaAcceso) {
     cargarLoader(false);
   }
 }
-
-// GUARDAR CLIENTES
 
 async function traerTodosLosClientes(rutaAcceso) {
   const clientesDelStorage = leerStorage(CLAVE_CLIENTES, null);
@@ -297,6 +300,62 @@ async function traerTodosLosClientes(rutaAcceso) {
     guardarEnStorage(CLAVE_CLIENTES, clientesDelJson);
     return clientesDelJson;
   }
+}
+
+// DOLAR API
+
+async function traerCotizacionDolar() {
+  try {
+    cargarLoader(true);
+    const cotizacionDolar = await fetch(
+      'https://dolarapi.com/v1/dolares/oficial',
+    );
+    if (!cotizacionDolar.ok) {
+      throw new Error('No se pudo obtener la cotización');
+    }
+    const dolarJson = await cotizacionDolar.json();
+    const { venta } = dolarJson;
+    return venta;
+  } catch {
+    modalCotizador.fire({
+      icon: 'error',
+      title: 'No pudimos cargar la cotización',
+      text: 'Revisá tu conexión y volvé a cargar la página.',
+      confirmButtonText: 'Entendido',
+    });
+    return null;
+  } finally {
+    cargarLoader(false);
+  }
+}
+
+async function cambiarMonedaArs() {
+  const cotizacionDolar = await traerCotizacionDolar();
+  if (cotizacionDolar === null) {
+    return;
+  } else {
+    guardarEnStorage(CLAVE_MONEDA, {
+      moneda: 'ARS',
+      cotizacion: cotizacionDolar,
+    });
+    location.reload();
+  }
+}
+
+escucharEvento('btn-moneda-ars', 'click', cambiarMonedaArs);
+
+function cambiarMonedaUsd() {
+  guardarEnStorage(CLAVE_MONEDA, { moneda: 'USD' });
+  location.reload();
+}
+escucharEvento('btn-moneda-usd', 'click', cambiarMonedaUsd);
+
+// ==== CATEGORIAS ====
+
+function traerCategorias(servicios) {
+  let categorias = servicios.map((servicio) => servicio.categoria);
+  categorias = [...new Set(categorias)];
+  return categorias;
 }
 
 // ===== HISTORIAL DE COTIZACIONES =====
@@ -516,4 +575,5 @@ function formatearCantidad(cantidad, tipoUnidad) {
   }
 }
 
+marcarMoneda();
 mostrarNombreEmpresa();

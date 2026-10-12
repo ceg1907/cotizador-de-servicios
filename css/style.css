@@ -127,6 +127,11 @@ nav a:hover {
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.selector-moneda button:not(.btn-moneda-activo):hover {
+    background-color: var(--color-acento-suave);
 }
 
 .selector-moneda button:first-child {
@@ -295,6 +300,11 @@ label {
 
 .btn-texto-icono--peligro:hover {
     color: var(--color-vencida);
+}
+
+.selector-moneda .btn-moneda-activo {
+    background-color: var(--color-acento);
+    color: var(--color-superficie);
 }
 
 /* ============================================
