@@ -518,10 +518,10 @@ label {
 }
 
 .box-descuento-inline input {
-    width: 56px;
-    padding: 2px 6px;
+    width: 50px;
+    padding: 2px 2px;
     font-size: 13px;
-    text-align: right;
+    text-align: center;
 
 }
 
