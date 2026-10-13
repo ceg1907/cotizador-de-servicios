@@ -11,13 +11,17 @@ function actualizarCotizacion() {
   const borradorActual = leerBorrador();
   mostrarClienteDom(borradorActual.cliente);
   mostrarCotizacionDom(borradorActual.servicios);
-  mostrarResumenDom(borradorActual.servicios);
+  mostrarResumenDom(
+    borradorActual.servicios,
+    borradorActual.descuento ?? DESCUENTO_POR_DEFECTO,
+  );
 }
 
 // RESETEAR VALORES DEL COTIZADOR
 
 function resetearCotizador() {
   localStorage.removeItem(CLAVE_BORRADOR);
+  inputDescuento.value = 0;
   inputVigencia.value = '';
   actualizarCotizacion();
 }
@@ -185,10 +189,10 @@ function crearItemResumen(servicio) {
           </li>`;
 }
 
-function mostrarResumenDom(servicios) {
+function mostrarResumenDom(servicios, porcentajeDescuento) {
   const { subtotal, descuento, impuesto, total } = calcularTotal(
     servicios,
-    DESCUENTO_POR_DEFECTO,
+    porcentajeDescuento,
     obtenerImpuesto(),
   );
   renderizarLista(servicios, crearItemResumen, 'box-items-cotizacion');
@@ -208,6 +212,21 @@ inputVigencia.addEventListener('change', () => {
   const borradorActual = leerBorrador();
   borradorActual.vigencia = inputVigencia.value;
   guardarEnStorage(CLAVE_BORRADOR, borradorActual);
+});
+
+// INPUT PORCENTAJE DE DESCUENTO
+const inputDescuento = document.getElementById('input-descuento');
+inputDescuento.addEventListener('input', () => {
+  const borradorActual = leerBorrador();
+  const descuentoEnNum = Number(inputDescuento.value);
+
+  if (descuentoEnNum < 0 || descuentoEnNum > 100) {
+    mostrarAviso('Escribí un número entre 0 y 100.');
+    return;
+  }
+  borradorActual.descuento = descuentoEnNum;
+  guardarEnStorage(CLAVE_BORRADOR, borradorActual);
+  actualizarCotizacion();
 });
 
 // BOTÓN VACIAR COTIZACIÓN (ASIDE)
@@ -248,7 +267,7 @@ btnConfirmar.addEventListener('click', async () => {
   }
   const { subtotal, descuento, impuesto, total } = calcularTotal(
     borradorActual.servicios,
-    DESCUENTO_POR_DEFECTO,
+    borradorActual.descuento ?? DESCUENTO_POR_DEFECTO,
     obtenerImpuesto(),
   );
 
@@ -260,7 +279,7 @@ btnConfirmar.addEventListener('click', async () => {
     estado: 'pendiente',
     cliente: borradorActual.cliente,
     servicios: [...borradorActual.servicios],
-    porcentajeDescuento: DESCUENTO_POR_DEFECTO,
+    porcentajeDescuento: borradorActual.descuento ?? DESCUENTO_POR_DEFECTO,
     porcentajeImpuesto: obtenerImpuesto(),
     subtotal,
     descuento,
@@ -381,6 +400,7 @@ async function iniciarCotizador() {
   inputVigencia.min = new Date().toLocaleDateString('en-CA');
   const borradorInicial = leerBorrador();
   inputVigencia.value = borradorInicial.vigencia;
+  inputDescuento.value = borradorInicial.descuento ?? DESCUENTO_POR_DEFECTO;
   mostrarServiciosDom(serviciosDisponibles);
   actualizarCotizacion();
 }

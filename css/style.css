@@ -510,6 +510,21 @@ label {
     font-variant-numeric: tabular-nums;
 }
 
+.box-descuento-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.box-descuento-inline input {
+    width: 56px;
+    padding: 2px 6px;
+    font-size: 13px;
+    text-align: right;
+
+}
+
 .box-cantidad-inline {
     display: flex;
     align-items: center;

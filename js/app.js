@@ -389,6 +389,8 @@ function generarPdfCotizacion(cotizacion) {
     subtotal,
     total,
     validoHasta,
+    descuento,
+    porcentajeDescuento,
   } = cotizacion;
   const { nombre, email, telefono, direccion, ciudad } = cliente;
 
@@ -480,10 +482,12 @@ function generarPdfCotizacion(cotizacion) {
   });
 
   const finTabla = documento.lastAutoTable.finalY;
+  const hayDescuento = porcentajeDescuento > 0;
+  const alturaExtra = hayDescuento ? 7 : 0;
 
   // Caja de totales
   documento.setFillColor('#E7EEEC');
-  documento.rect(120, finTabla + 6, 70, 28, 'F');
+  documento.rect(120, finTabla + 6, 70, 28 + alturaExtra, 'F');
 
   documento.setFont('helvetica', 'normal');
   documento.setFontSize(10);
@@ -492,17 +496,29 @@ function generarPdfCotizacion(cotizacion) {
   documento.text(formatearMoneda(subtotal), 185, finTabla + 13, {
     align: 'right',
   });
-  documento.text(`IVA (${porcentajeImpuesto}%)`, 125, finTabla + 20);
-  documento.text(formatearMoneda(impuesto), 185, finTabla + 20, {
+
+  if (hayDescuento) {
+    documento.text(`Descuento (${porcentajeDescuento}%)`, 125, finTabla + 20);
+    documento.text(`-${formatearMoneda(descuento)}`, 185, finTabla + 20, {
+      align: 'right',
+    });
+  }
+
+  documento.text(
+    `IVA (${porcentajeImpuesto}%)`,
+    125,
+    finTabla + 20 + alturaExtra,
+  );
+  documento.text(formatearMoneda(impuesto), 185, finTabla + 20 + alturaExtra, {
     align: 'right',
   });
 
   documento.setFont('helvetica', 'bold');
   documento.setFontSize(12);
   documento.setTextColor('#1F4B43');
-  documento.text('Total', 125, finTabla + 29);
+  documento.text('Total', 125, finTabla + 29 + alturaExtra);
   documento.setTextColor('#C98A3B');
-  documento.text(formatearMoneda(total), 185, finTabla + 29, {
+  documento.text(formatearMoneda(total), 185, finTabla + 29 + alturaExtra, {
     align: 'right',
   });
 
