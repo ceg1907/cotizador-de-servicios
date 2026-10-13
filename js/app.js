@@ -205,6 +205,47 @@ function marcarMoneda() {
   botonActivo.classList.add('btn-moneda-activo');
 }
 
+// AVISO DE BORRADOR EN CURSO
+
+async function avisarCotizacionEnCurso() {
+  const estaEnCotizador = document.getElementById('btn-confirmar');
+  if (estaEnCotizador) {
+    return;
+  }
+
+  const borradorActual = leerBorrador();
+  const hayCotizacionEnCurso =
+    borradorActual.cliente !== null || borradorActual.servicios.length > 0;
+  if (!hayCotizacionEnCurso) {
+    return;
+  }
+  const avisoYaMostrado = sessionStorage.getItem('avisoCotizacionMostrado');
+  if (avisoYaMostrado) {
+    return;
+  }
+  sessionStorage.setItem('avisoCotizacionMostrado', 'true');
+
+  const response = await Swal.fire({
+    toast: true,
+    position: 'bottom-end',
+    icon: 'info',
+    iconColor: '#1F4B43',
+    title: 'Tenés una cotización en curso',
+    showConfirmButton: true,
+    confirmButtonText: 'Ver cotización',
+    showCloseButton: true,
+    buttonsStyling: false,
+    customClass: {
+      popup: 'toast-cotizador toast-en-curso',
+      confirmButton: 'btn-primario',
+    },
+  });
+
+  if (response.isConfirmed) {
+    location.href = '../index.html';
+  }
+}
+
 // FUNCION PARA VALOR IMPUESTO
 
 function obtenerImpuesto() {
@@ -593,3 +634,4 @@ function formatearCantidad(cantidad, tipoUnidad) {
 
 marcarMoneda();
 mostrarNombreEmpresa();
+avisarCotizacionEnCurso();

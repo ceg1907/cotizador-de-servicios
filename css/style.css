@@ -814,6 +814,24 @@ label {
     color: var(--color-texto);
 }
 
+.swal2-popup.toast-en-curso .swal2-actions {
+    justify-content: flex-start;
+    margin: 8px 0 0;
+}
+
+.swal2-popup.toast-en-curso .swal2-confirm {
+    padding: 6px 14px;
+    font-size: 13px;
+}
+
+.swal2-popup.toast-en-curso .swal2-close {
+    color: var(--color-texto-secundario);
+}
+
+.swal2-popup.toast-en-curso .swal2-close:hover {
+    color: var(--color-acento);
+}
+
 .swal2-popup.modal-cotizador {
     background-color: var(--color-superficie);
     border-radius: var(--radio-borde);
