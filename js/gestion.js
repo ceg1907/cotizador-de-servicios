@@ -88,37 +88,54 @@ function formatearCategorias(servicios) {
 function crearTarjetaCotizacion(cotizacion) {
   const estadoVisible = obtenerEstadoVisible(cotizacion);
   return `
-    <article class="card w-100 mb-3">
-      <div class="card-body">
+    <article class="tarjeta-cotizacion">
+      <div class="tarjeta-cotizacion-principal">
+        <span class="icono-seccion" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+            <path d="M10 9H8"></path>
+            <path d="M16 13H8"></path>
+            <path d="M16 17H8"></path>
+          </svg>
+        </span>
         <div>
-          <h5 class="card-title"> ${formatearNumeroCotizacion(cotizacion.numeroCotizacion)} — ${formatearFecha(cotizacion.fecha)}</h5>
-          <p class="card-text">${cotizacion.cliente.nombre} · ${formatearCategorias(cotizacion.servicios)}</p>
-          <span class="monto">${formatearMoneda(cotizacion.total)}</span>
+          <p class="tarjeta-cotizacion-meta">
+            <strong>${formatearNumeroCotizacion(cotizacion.numeroCotizacion)}</strong> · ${formatearFecha(cotizacion.fecha)}
+          </p>
+          <h3>${cotizacion.cliente.nombre}</h3>
+          <p class="card-text">${formatearCategorias(cotizacion.servicios)}</p>
         </div>
-        <hr class="my-2 mx-5">
-        <div class="d-flex justify-content-between">
-          <div class="box-estado">
-            <label for="estado-${cotizacion.id}">Estado</label>
-            <select id="estado-${cotizacion.id}" data-id="${cotizacion.id}" class="select-estado select-estado--${estadoVisible}">
-              <option value="pendiente" ${estadoVisible === 'pendiente' ? 'selected' : ''}>Pendiente</option>
-              <option value="vencida" ${estadoVisible === 'vencida' ? 'selected' : ''}>Vencida</option>
-              <option value="completada" ${estadoVisible === 'completada' ? 'selected' : ''}>Completada</option>
-            </select>
-          </div>
-          <div class="d-flex align-items-center gap-4">
-            <button type="button" class="btn-texto-icono btn-pdf-cotizacion" data-id="${cotizacion.id}">
-              <img src="../assets/icono-pdf.svg" alt="Descargar PDF" width="20" height="20">
-              Descargar
-            </button>
-            <button type="button" class="btn-icono btn-eliminar-cotizacion" data-id="${cotizacion.id}" aria-label="Eliminar cotización">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-        </div>  
+      </div>
+
+      <div class="tarjeta-cotizacion-total">
+        <span>Total</span>
+        <strong class="monto">${formatearMoneda(cotizacion.total)}</strong>
+      </div>
+
+      <div>
+        <label for="estado-${cotizacion.id}" class="visually-hidden">Estado</label>
+        <select id="estado-${cotizacion.id}" data-id="${cotizacion.id}" class="select-estado select-estado--${estadoVisible}">
+          <option value="pendiente" ${estadoVisible === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+          <option value="vencida" ${estadoVisible === 'vencida' ? 'selected' : ''}>Vencida</option>
+          <option value="completada" ${estadoVisible === 'completada' ? 'selected' : ''}>Completada</option>
+        </select>
+      </div>
+
+      <div class="tarjeta-cotizacion-acciones">
+        <button type="button" class="btn-texto-icono btn-pdf-cotizacion" data-id="${cotizacion.id}">
+          <img src="../assets/icono-pdf.svg" alt="" width="20" height="20">
+          Descargar
+        </button>
+        <button type="button" class="btn-icono btn-eliminar-cotizacion" data-id="${cotizacion.id}" aria-label="Eliminar cotización">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+        </button>
       </div>
     </article>
   `;
