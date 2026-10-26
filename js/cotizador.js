@@ -31,6 +31,9 @@ function actualizarCotizacion() {
   hayCotizacionEnCurso()
     ? pastillaBorrador.classList.remove('d-none')
     : pastillaBorrador.classList.add('d-none');
+
+  const boxNumCot = document.getElementById('numero-cotizacion-resumen');
+  boxNumCot.textContent = formatearNumeroCotizacion(generarNumeroCotizacion());
 }
 
 // RESETEAR VALORES DEL COTIZADOR

@@ -682,6 +682,30 @@ label {
     top: 24px;
 }
 
+.resumen-encabezado {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.resumen-encabezado h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.numero-cotizacion {
+    padding: 4px 8px;
+    border-radius: 6px;
+    background-color: var(--color-fondo);
+    color: var(--color-texto-secundario);
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
 .box-items-cotizacion {
     list-style: none;
     margin: 0 0 16px 0;
