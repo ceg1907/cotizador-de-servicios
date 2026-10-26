@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Cotizaciones — Cotizador de Servicios</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
@@ -26,20 +25,42 @@
         <l-ring size="40" color="#1F4B43"></l-ring>
     </div>
     <header>
-        <div class="box-titulos">
-            <h1 class="fs-3"><a href="../index.html">Cotizador de Servicios</a></h1>
-            <p id="nombre-empresa-header">Nombre Empresa</p>
-        </div>
-        <nav aria-label="Navegación principal">
-            <ul>
-                <li><a href="../index.html">Cotizador</a></li>
-                <li><a href="./admin.html">Configuración</a></li>
-            </ul>
-            <div class="selector-moneda" role="group" aria-label="Selector de moneda">
-                <button id="btn-moneda-ars" type="button">ARS</button>
-                <button id="btn-moneda-usd" type="button">USD</button>
+        <div class="header-contenido">
+            <div class="box-titulos">
+                <h1>
+                    <a href="../index.html">
+                        <span class="logo-marca" aria-hidden="true">c</span>
+                        <span>Cotizador <span class="titulo-app-detalle">de Servicios</span></span>
+                    </a>
+                </h1>
             </div>
-        </nav>
+
+            <div class="box-navegacion">
+                <p class="empresa-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                        <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                        <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                        <path d="M10 6h4M10 10h4M10 14h4M10 18h4"></path>
+                    </svg>
+                    <span id="nombre-empresa-header">Nombre Empresa</span>
+                </p>
+
+                <nav aria-label="Navegación principal">
+                    <ul>
+                        <li><a href="../index.html">Cotizador</a></li>
+                        <li><a href="./historial.html" aria-current="page">Historial</a></li>
+                        <li><a href="./admin.html">Configuración</a></li>
+                    </ul>
+                </nav>
+
+                <div class="selector-moneda" role="group" aria-label="Selector de moneda">
+                    <button id="btn-moneda-ars" type="button">ARS</button>
+                    <button id="btn-moneda-usd" type="button">USD</button>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main>

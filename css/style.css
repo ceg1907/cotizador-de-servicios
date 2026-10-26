@@ -2,30 +2,39 @@
    VARIABLES
    ============================================ */
 :root {
-    --color-fondo: #F4F5F3;
+    /* Base */
+    --color-fondo: #F6F3EE;
     --color-superficie: #FFFFFF;
-    --color-borde: #DDE1DC;
+    --color-borde: #DAD4CB;
 
-    --color-texto: #34383b;
-    --color-texto-secundario: #5B6472;
+    /* Texto */
+    --color-texto: #3F525F;
+    --color-texto-secundario: #5F6C75;
 
-    --color-acento: #1F4B43;
-    --color-acento-hover: #163830;
-    --color-acento-suave: #E7EEEC;
+    /* Principal */
+    --color-acento: #1B4C39;
+    --color-acento-hover: #143A2B;
+    --color-acento-suave: #E4EDE8;
+    --color-secundario: #698D96;
 
-    --color-monto: #C98A3B;
+    /* Montos */
+    --color-monto: #A86412;
 
-    --color-pendiente: #C98A3B;
-    --color-pendiente-fondo: #FBF2E4;
+    /* Estados */
+    --color-pendiente: #9A5B0E;
+    --color-pendiente-fondo: #FBF0DD;
     --color-vencida: #B23A2E;
     --color-vencida-fondo: #FBEAE8;
-    --color-completada: #1F4B43;
-    --color-completada-fondo: #E7EEEC;
+    --color-completada: #2E7650;
+    --color-completada-fondo: #E3F1E8;
 
-    --fuente-titulos: 'IBM Plex Serif', serif;
-    --fuente-texto: 'IBM Plex Sans', sans-serif;
+    /* Tipografía */
+    --fuente-titulos: 'Inter', sans-serif;
+    --fuente-texto: 'Inter', sans-serif;
 
-    --radio-borde: 4px;
+    --radio-borde: 10px;
+    --radio-tarjeta: 16px;
+    --sombra-tarjeta: 0 4px 18px rgba(37, 52, 67, 0.06);
 }
 
 /* ============================================
@@ -59,88 +68,154 @@ hr {
    HEADER Y NAV
    ============================================ */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 48px;
     background-color: var(--color-superficie);
     border-bottom: 1px solid var(--color-borde);
 }
 
+.header-contenido {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    max-width: 1240px;
+    height: 76px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.box-navegacion {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex: 1;
+}
+
+.empresa-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 0 auto;
+    padding-right: 28px;
+    border-right: 1px solid var(--color-borde);
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+}
+
+.empresa-header svg {
+    flex-shrink: 0;
+    color: var(--color-acento);
+}
+
 .box-titulos {
     display: flex;
-    align-items: baseline;
-    gap: 1rem;
+    align-items: center;
+    gap: 16px;
+}
+
+.box-titulos h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 .box-titulos a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: inherit;
     text-decoration: none;
+}
+
+.titulo-app-detalle {
+    font-weight: 400;
+    color: var(--color-texto-secundario);
+}
+
+.logo-marca {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radio-borde);
+    background-color: var(--color-acento);
+    color: var(--color-superficie);
+    font-family: Georgia, serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 700;
+    box-shadow: 0 5px 12px rgba(27, 76, 57, 0.2);
 }
 
 .box-titulos a:hover {
     color: var(--color-acento);
 }
 
-header p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--color-texto-secundario);
-}
-
 nav {
     display: flex;
-    gap: 5rem;
+    align-items: center;
+    gap: 28px;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 4px;
     margin: 0;
     padding: 0;
-    font-size: 15px;
 }
 
 nav a {
-    color: var(--color-texto);
-    text-decoration: none;
+    display: block;
+    padding: 8px 12px;
+    border-radius: var(--radio-borde);
+    color: var(--color-texto-secundario);
+    font-size: 14px;
     font-weight: 500;
-    border-bottom: 1px solid transparent;
-    transition: color 0.2s ease, border-bottom 0.2s ease;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-nav a:hover {
+nav a:hover,
+nav a[aria-current="page"] {
     color: var(--color-acento);
-    border-bottom-color: var(--color-acento);
+    background-color: var(--color-acento-suave);
+}
+
+nav a[aria-current="page"] {
+    font-weight: 600;
 }
 
 .selector-moneda {
     display: flex;
+    gap: 2px;
+    padding: 3px;
+    background-color: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    margin-left: auto;
 }
 
 .selector-moneda button {
-    border: 1px solid var(--color-borde);
-    background: var(--color-superficie);
-    padding: 7px 14px;
-    font-size: 13px;
-    font-weight: 600;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--color-texto-secundario);
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.1s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .selector-moneda button:not(.btn-moneda-activo):hover {
-    background-color: var(--color-acento-suave);
+    color: var(--color-acento);
 }
 
-.selector-moneda button:first-child {
-    border-radius: var(--radio-borde) 0 0 var(--radio-borde);
-}
-
-.selector-moneda button:last-child {
-    border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
-    border-left: none;
+.selector-moneda .btn-moneda-activo {
+    background-color: var(--color-superficie);
+    color: var(--color-acento);
+    box-shadow: 0 1px 4px rgba(37, 52, 67, 0.12);
 }
 
 /* ============================================
@@ -302,10 +377,7 @@ label {
     color: var(--color-vencida);
 }
 
-.selector-moneda .btn-moneda-activo {
-    background-color: var(--color-acento);
-    color: var(--color-superficie);
-}
+
 
 /* ============================================
    CARD / FILAS GENÉRICAS
@@ -871,15 +943,46 @@ label {
 }
 
 /* ============================================
+   TARJETAS
+   ============================================ */
+.card,
+.box-cliente,
+.box-resumen,
+.box-filtros,
+.box-form-empresa,
+.fila-servicio-cotizacion,
+.fila-resultado,
+.fila-admin,
+.modal-content,
+.swal2-popup.modal-cotizador {
+    border-radius: var(--radio-tarjeta);
+    box-shadow: var(--sombra-tarjeta);
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
 
     /* ----- Generales ----- */
-    header {
+
+    .header-contenido {
+        flex-wrap: wrap;
+        height: auto;
+        gap: 12px;
+        padding: 14px 16px;
+    }
+
+    .box-navegacion {
+        flex-basis: 100%;
         flex-wrap: wrap;
         gap: 12px;
-        padding: 16px 24px;
+    }
+
+    .empresa-header {
+        margin-left: 0;
+        padding-right: 0;
+        border-right: none;
     }
 
     h1,
@@ -887,10 +990,6 @@ label {
     h3,
     h4 {
         font-size: 20px;
-    }
-
-    nav {
-        gap: 16px;
     }
 
     nav a {
