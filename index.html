@@ -101,24 +101,38 @@
                     </div>
                 </div>
 
-                <div class="box-header-servicios">
-                    <div>
-                        <h3 class="fs-4">Servicios en esta cotización</h3>
-                        <p class="texto-ayuda m-0">Agregá, editá la cantidad o quitá servicios de la lista.</p>
+                <div class="box-servicios-cotizacion">
+                    <div class="box-header-servicios">
+                        <div class="titulo-seccion">
+                            <span class="icono-seccion" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                            </span>
+                            <div>
+                                <h2>Servicios en esta cotización</h2>
+                                <p>Agregá, editá la cantidad o quitá servicios de la lista.</p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-primario" data-bs-toggle="modal"
+                            data-bs-target="#modalAgregarServicio">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Agregar servicio
+                        </button>
                     </div>
-                    <button type="button" class="btn-primario" data-bs-toggle="modal"
-                        data-bs-target="#modalAgregarServicio">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        Agregar servicio
-                    </button>
-                </div>
 
-                <div id="box-lista-cotizacion" class="box-lista-servicios-cotizacion">
-
+                    <div id="box-lista-cotizacion" class="box-lista-servicios-cotizacion">
+                    </div>
                 </div>
             </section>
 

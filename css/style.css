@@ -674,21 +674,90 @@ label {
     padding: 24px 0;
 }
 
-.fila-servicio-cotizacion {
-    background-color: var(--color-superficie);
-    border: 1px solid var(--color-borde);
-    border-radius: var(--radio-borde);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
 
 .fila-servicio-nombre {
     font-size: 15px;
     font-weight: 600;
     margin: 0 0 2px 0;
+}
+
+.box-servicios-cotizacion {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid var(--color-borde);
+    background-color: var(--color-superficie);
+}
+
+.box-lista-servicios-cotizacion {
+    border-top: 1px solid var(--color-borde);
+}
+
+.input-cantidad-cotizacion {
+    width: 60px;
+    height: 34px;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+.fila-servicio-cotizacion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.fila-servicio-cotizacion:last-child {
+    border-bottom: none;
+}
+
+.fila-servicio-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.numero-fila {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background-color: var(--color-acento-suave);
+    color: var(--color-acento);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.box-cantidad-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.box-cantidad-inline label {
+    margin: 0;
+    font-size: 11px;
+    color: var(--color-texto-secundario);
+}
+
+.fila-servicio-controles .monto {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.btn-quitar-servicio {
+    color: var(--color-texto-secundario);
+    border-radius: 8px;
+}
+
+.btn-quitar-servicio:hover {
+    color: var(--color-vencida);
+    background-color: var(--color-vencida-fondo);
 }
 
 .fila-servicio-controles {
@@ -717,17 +786,6 @@ label {
     font-size: 13px;
     text-align: center;
 
-}
-
-.box-cantidad-inline {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.box-cantidad-inline label {
-    margin: 0;
-    white-space: nowrap;
 }
 
 .box-cantidad-inline input {
@@ -1096,7 +1154,7 @@ label {
 .box-resumen,
 .box-filtros,
 .box-form-empresa,
-.fila-servicio-cotizacion,
+.box-servicios-cotizacion,
 .fila-resultado,
 .fila-admin,
 .modal-content,

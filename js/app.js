@@ -170,8 +170,8 @@ function cargarLoader(cargando) {
 
 function renderizarLista(items, crearFila, idContenedor) {
   let itemsDom = '';
-  items.forEach((item) => {
-    itemsDom += crearFila(item);
+  items.forEach((item, indice) => {
+    itemsDom += crearFila(item, indice);
   });
 
   const idBox = document.getElementById(idContenedor);

@@ -116,27 +116,33 @@ function agregarServicioAlBorrador(servicio, valorCantidad) {
 
 // CREAR LA FILA EN EL DOM DEL BORRADOR
 
-function crearFilaCotizacion(servicio) {
+function crearFilaCotizacion(servicio, indice) {
   const subtotal = calcularMonto(servicio);
   return `
     <article class="fila-servicio-cotizacion">
+      <div class="fila-servicio-info">
+        <span class="numero-fila">${indice + 1}</span>
         <div>
-            <h3 class="fila-servicio-nombre">${servicio.nombre}</h3>
-            <p class="card-text">${servicio.categoria} · ${formatearMoneda(servicio.precio)} / ${servicio.unidad}</p>
+          <h3 class="fila-servicio-nombre">${servicio.nombre}</h3>
+          <p class="card-text">${servicio.categoria} · ${formatearMoneda(servicio.precio)} / ${servicio.unidad}</p>
         </div>
-        <div class="fila-servicio-controles">
-            <div class="box-cantidad-inline">
-                <label for="cant-${servicio.id}">Cant.</label>
-                <input type="number" id="cant-${servicio.id}" data-id="${servicio.id}" value="${servicio.cantidad}" min="1" class="input-cantidad-cotizacion">
-            </div>
-            <span class="monto">${formatearMoneda(subtotal)}</span>
-            <button type="button" class="btn-icono btn-quitar-servicio" data-id="${servicio.id}" aria-label="Quitar ${servicio.nombre}">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
+      </div>
+      <div class="fila-servicio-controles">
+        <div class="box-cantidad-inline">
+          <label for="cant-${servicio.id}">Cant.</label>
+          <input type="number" id="cant-${servicio.id}" data-id="${servicio.id}" value="${servicio.cantidad}" min="1" class="input-cantidad-cotizacion">
         </div>
+        <span class="monto">${formatearMoneda(subtotal)}</span>
+        <button type="button" class="btn-icono btn-quitar-servicio" data-id="${servicio.id}" aria-label="Quitar ${servicio.nombre}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+        </button>
+      </div>
     </article>
   `;
 }
