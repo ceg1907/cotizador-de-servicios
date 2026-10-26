@@ -63,76 +63,92 @@
         </div>
     </header>
 
-    <main class="main-index">
-        <section class="box-servicios" aria-label="Cotización en curso">
-
-            <div class="box-cliente" id="box-cliente">
-                <div class="box-cliente-header">
-                    <h2>Datos del cliente</h2>
-                    <button type="button" class="btn-link" id="btn-seleccionar-cliente" data-bs-toggle="modal"
-                        data-bs-target="#modalSeleccionarCliente">Seleccionar cliente</button>
-                </div>
-                <div id="box-cliente-dinamico">
-                </div>
+    <main class="main-cotizador">
+        <div class="encabezado-pagina">
+            <div>
+                <p class="antetitulo" id="fecha-hoy"></p>
+                <h2>Armá una nueva cotización</h2>
+                <p class="subtitulo">Prepará una propuesta clara y profesional para tu próximo cliente.</p>
             </div>
+            <span id="aviso-borrador" class="pastilla-borrador d-none">
+                <span class="pastilla-punto"></span>
+                Borrador en curso
+            </span>
+        </div>
 
-            <div class="box-header-servicios">
-                <div>
-                    <h3 class="fs-4">Servicios en esta cotización</h3>
-                    <p class="texto-ayuda m-0">Agregá, editá la cantidad o quitá servicios de la lista.</p>
-                </div>
-                <button type="button" class="btn-primario" data-bs-toggle="modal"
-                    data-bs-target="#modalAgregarServicio">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    Agregar servicio
-                </button>
-            </div>
+        <div class="main-index">
+            <section class="box-servicios" aria-label="Cotización en curso">
 
-            <div id="box-lista-cotizacion" class="box-lista-servicios-cotizacion">
-
-            </div>
-        </section>
-
-        <aside class="box-resumen" aria-label="Resumen de la cotización">
-            <h2>Resumen</h2>
-
-            <ul class="box-items-cotizacion" id="box-items-cotizacion">
-
-            </ul>
-
-            <div class="box-confirm">
-                <div class="box-subtotales">
-                    <div><span>Subtotal</span><span id="num-subtotal">$0</span></div>
-                    <div>
-                        <span class="box-descuento-inline">
-                            <label for="input-descuento" class="m-0">Descuento</label>
-                            <input type="number" id="input-descuento" name="input-descuento" min="0" max="100"
-                                value="0">
-                            <span>%</span>
-                        </span>
-                        <span id="num-descuento">$0</span>
+                <div class="box-cliente" id="box-cliente">
+                    <div class="box-cliente-header">
+                        <h2>Datos del cliente</h2>
+                        <button type="button" class="btn-link" id="btn-seleccionar-cliente" data-bs-toggle="modal"
+                            data-bs-target="#modalSeleccionarCliente">Seleccionar cliente</button>
                     </div>
-                    <div><span>Impuesto</span><span id="num-impuesto">$0</span></div>
+                    <div id="box-cliente-dinamico">
+                    </div>
                 </div>
-                <div class="box-total">
-                    <h4>Total</h4>
-                    <span id="num-total" class="monto">$0</span>
+
+                <div class="box-header-servicios">
+                    <div>
+                        <h3 class="fs-4">Servicios en esta cotización</h3>
+                        <p class="texto-ayuda m-0">Agregá, editá la cantidad o quitá servicios de la lista.</p>
+                    </div>
+                    <button type="button" class="btn-primario" data-bs-toggle="modal"
+                        data-bs-target="#modalAgregarServicio">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Agregar servicio
+                    </button>
                 </div>
-                <div class="box-vigencia">
-                    <label for="fecha-vigencia">Válida hasta</label>
-                    <input type="date" id="fecha-vigencia" name="fecha-vigencia">
+
+                <div id="box-lista-cotizacion" class="box-lista-servicios-cotizacion">
+
                 </div>
-                <div class="botones-confirm">
-                    <button type="button" class="btn-primario" id="btn-confirmar">Confirmar cotización</button>
-                    <button type="button" class="btn-secundario" id="btn-vaciar">Vaciar cotización</button>
+            </section>
+
+            <aside class="box-resumen" aria-label="Resumen de la cotización">
+                <h2>Resumen</h2>
+
+                <ul class="box-items-cotizacion" id="box-items-cotizacion">
+
+                </ul>
+
+                <div class="box-confirm">
+                    <div class="box-subtotales">
+                        <div><span>Subtotal</span><span id="num-subtotal">$0</span></div>
+                        <div>
+                            <span class="box-descuento-inline">
+                                <label for="input-descuento" class="m-0">Descuento</label>
+                                <input type="number" id="input-descuento" name="input-descuento" min="0" max="100"
+                                    value="0">
+                                <span>%</span>
+                            </span>
+                            <span id="num-descuento">$0</span>
+                        </div>
+                        <div><span>Impuesto</span><span id="num-impuesto">$0</span></div>
+                    </div>
+                    <div class="box-total">
+                        <h4>Total</h4>
+                        <span id="num-total" class="monto">$0</span>
+                    </div>
+                    <div class="box-vigencia">
+                        <label for="fecha-vigencia">Válida hasta</label>
+                        <input type="date" id="fecha-vigencia" name="fecha-vigencia">
+                    </div>
+                    <div class="botones-confirm">
+                        <button type="button" class="btn-primario" id="btn-confirmar">Confirmar cotización</button>
+                        <button type="button" class="btn-secundario" id="btn-vaciar">Vaciar cotización</button>
+                    </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+
+        </div>
     </main>
+
 
     <!-- Modal: Agregar servicio -->
     <div class="modal fade" id="modalAgregarServicio" tabindex="-1" aria-labelledby="modalAgregarServicioLabel"

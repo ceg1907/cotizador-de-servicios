@@ -5,6 +5,16 @@ let clientesDisponibles = [];
 
 // ===== FUNCIONES REUTILIZABLES =====
 
+function mostrarFechaHoy() {
+  const contenedorFecha = document.getElementById('fecha-hoy');
+  contenedorFecha.textContent = new Date().toLocaleDateString('es-AR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
 // ACTUALIZAR DATOS Y DOM (COTIZADOR)
 
 function actualizarCotizacion() {
@@ -15,6 +25,12 @@ function actualizarCotizacion() {
     borradorActual.servicios,
     borradorActual.descuento ?? DESCUENTO_POR_DEFECTO,
   );
+
+  const pastillaBorrador = document.getElementById('aviso-borrador');
+
+  hayCotizacionEnCurso()
+    ? pastillaBorrador.classList.remove('d-none')
+    : pastillaBorrador.classList.add('d-none');
 }
 
 // RESETEAR VALORES DEL COTIZADOR
@@ -391,6 +407,7 @@ function mostrarClienteDom(cliente) {
 async function iniciarCotizador() {
   serviciosDisponibles = await traerTodosLosServicios();
   clientesDisponibles = await traerTodosLosClientes();
+  mostrarFechaHoy();
   renderizarLista(
     clientesDisponibles,
     crearFilaCliente,

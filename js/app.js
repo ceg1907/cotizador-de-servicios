@@ -213,12 +213,10 @@ async function avisarCotizacionEnCurso() {
     return;
   }
 
-  const borradorActual = leerBorrador();
-  const hayCotizacionEnCurso =
-    borradorActual.cliente !== null || borradorActual.servicios.length > 0;
-  if (!hayCotizacionEnCurso) {
+  if (!hayCotizacionEnCurso()) {
     return;
   }
+
   const avisoYaMostrado = sessionStorage.getItem('avisoCotizacionMostrado');
   if (avisoYaMostrado) {
     return;
@@ -244,6 +242,12 @@ async function avisarCotizacionEnCurso() {
   if (response.isConfirmed) {
     location.href = '../index.html';
   }
+}
+
+function hayCotizacionEnCurso() {
+  const borradorActual = leerBorrador();
+
+  return borradorActual.cliente !== null || borradorActual.servicios.length > 0;
 }
 
 // FUNCION PARA VALOR IMPUESTO
