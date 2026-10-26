@@ -376,18 +376,36 @@ boxClienteDinamico.addEventListener('click', (evento) => {
 
 function crearTarjetaCliente(cliente) {
   return `
-          <div class="box-cliente-datos">
-            <div><span class="dato-label">Empresa: </span>${cliente.nombre}</div>
-            <div><span class="dato-label">Email: </span>${cliente.email}</div>
-            <div><span class="dato-label">Ciudad: </span>${cliente.ciudad || 'sin ciudad'}</div>
-            <div><span class="dato-label">Teléfono: </span>${cliente.telefono}</div>
-          </div>
-          <div class="box-cliente-acciones">
-            <button type="button" class="btn-link" data-bs-toggle="modal" data-bs-target="#modalSeleccionarCliente">Cambiar cliente</button>
-            <button type="button" class="btn-link btn-link--peligro btn-quitar-cliente">Quitar</button>
-          </div>
-          `;
+    <div class="tarjeta-cliente">
+      <span class="avatar" aria-hidden="true">${obtenerIniciales(cliente.nombre)}</span>
+      <div class="tarjeta-cliente-datos">
+        <strong>${cliente.nombre}</strong>
+        <span>${cliente.email}</span>
+        <small>${cliente.ciudad || 'Sin ciudad'} · ${cliente.telefono}</small>
+      </div>
+      <div class="tarjeta-cliente-acciones">
+        <button type="button" class="btn-link" data-bs-toggle="modal" data-bs-target="#modalSeleccionarCliente">Cambiar</button>
+        <button type="button" class="btn-icono btn-quitar-cliente" aria-label="Quitar cliente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  `;
 }
+
+function obtenerIniciales(nombre) {
+  const inicialesNombre = nombre
+    .split(' ')
+    .slice(0, 2)
+    .map((palabra) => palabra[0])
+    .join('')
+    .toUpperCase();
+  return inicialesNombre;
+}
+console.log(obtenerIniciales('Estudio Norte'));
 
 // MENSAJE SI NO HAY CLIENTE CARGADO
 

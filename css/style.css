@@ -559,6 +559,83 @@ label {
     margin-bottom: 20px;
 }
 
+.titulo-seccion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.titulo-seccion h2 {
+    margin: 0 0 2px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.titulo-seccion p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+}
+
+.icono-seccion {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radio-borde);
+    background-color: var(--color-acento-suave);
+    color: var(--color-acento);
+}
+
+.tarjeta-cliente {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 14px;
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    background-color: var(--color-fondo);
+}
+
+.avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background-color: var(--color-acento-suave);
+    color: var(--color-acento);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.tarjeta-cliente-datos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.tarjeta-cliente-datos strong {
+    font-size: 14px;
+}
+
+.tarjeta-cliente-datos span,
+.tarjeta-cliente-datos small {
+    font-size: 12px;
+    color: var(--color-texto-secundario);
+}
+
+.tarjeta-cliente-acciones {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
 .box-cliente-header {
     display: flex;
     align-items: center;
@@ -572,22 +649,8 @@ label {
     margin: 0;
 }
 
-.box-cliente-datos {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px 24px;
-    font-size: 13px;
-    margin-top: 10px;
-}
-
 .dato-label {
     color: var(--color-texto-secundario);
-}
-
-.box-cliente-acciones {
-    display: flex;
-    gap: 16px;
-    margin-top: 12px;
 }
 
 .box-header-servicios {
