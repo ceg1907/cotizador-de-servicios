@@ -188,6 +188,21 @@ function obtenerIniciales(nombre) {
   return inicialesNombre;
 }
 
+// CATEGORIA (SELECT)
+
+function crearOpcionCategoria(categoria) {
+  return `
+          <option value="${categoria}">${categoria}</option>
+  `;
+}
+
+// FILTROS DE HISTORIAL (SELEC Y BUSCADOR)
+
+function aplicarFiltro(lista, valor, condicion) {
+  const listaFiltrada = valor === 'todos' ? lista : lista.filter(condicion);
+  return listaFiltrada;
+}
+
 // FORMATO DE MONEDA
 
 const formatoDolares = new Intl.NumberFormat('es-AR', {

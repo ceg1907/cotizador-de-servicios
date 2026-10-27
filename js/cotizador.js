@@ -3,6 +3,13 @@
 let serviciosDisponibles = [];
 let clientesDisponibles = [];
 
+// ===== CONTENEDORES FILTROS =====
+const selectCategoriaModal = document.getElementById('filtro-categoria-modal');
+escucharEvento('filtro-categoria-modal', 'click', filtrarServiciosModal);
+
+const inputServicioModal = document.getElementById('buscar-servicio-modal');
+escucharEvento('buscar-servicio-modal', 'input', filtrarServiciosModal);
+
 // ===== FUNCIONES REUTILIZABLES =====
 
 function mostrarFechaHoy() {
@@ -418,10 +425,46 @@ function mostrarClienteDom(cliente) {
   boxClientes.innerHTML = crearTarjetaCliente(cliente);
 }
 
+// FUNCIONES QUE FILTRAN
+
+function filtrarServiciosModal() {
+  const serviciosPorCategoria = aplicarFiltro(
+    serviciosDisponibles,
+    selectCategoriaModal.value,
+    (servicio) => servicio.categoria === selectCategoriaModal.value,
+  );
+
+  const textoBuscado = formatearTexto(inputServicioModal.value);
+  const serviciosBuscados = aplicarFiltro(
+    serviciosPorCategoria,
+    textoBuscado,
+    (servicio) =>
+      formatearTexto(servicio.nombre).includes(textoBuscado) ||
+      formatearTexto(servicio.categoria).includes(textoBuscado),
+  );
+
+  if (serviciosBuscados.length === 0) {
+    mostrarMensajeVacio(
+      'box-resultados-servicios',
+      'No encontramos servicios con ese nombre o categoría. Probá con otra búsqueda.',
+    );
+    return;
+  }
+
+  mostrarServiciosDom(serviciosBuscados);
+}
+
 // ====== FUNCIONES INICIADORAS =====
 
 async function iniciarCotizador() {
   serviciosDisponibles = await traerTodosLosServicios();
+
+  const categoriasEncontradas = traerCategorias(serviciosDisponibles);
+
+  categoriasEncontradas.forEach((categoria) => {
+    selectCategoriaModal.innerHTML += crearOpcionCategoria(categoria);
+  });
+
   clientesDisponibles = await traerTodosLosClientes();
   mostrarFechaHoy();
   renderizarLista(

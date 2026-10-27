@@ -14,13 +14,6 @@ escucharEvento('filtro-busqueda', 'input', actualizarHistorial);
 
 // FUNCIONES REUTILIZABLES
 
-// FILTROS DE HISTORIAL (SELEC Y BUSCADOR)
-
-function aplicarFiltro(lista, valor, condicion) {
-  const listaFiltrada = valor === 'todos' ? lista : lista.filter(condicion);
-  return listaFiltrada;
-}
-
 // FUNCION PARA ACTUALIZAR DATOS Y DOM
 
 function actualizarHistorial() {
@@ -138,14 +131,6 @@ function crearTarjetaCotizacion(cotizacion) {
         </button>
       </div>
     </article>
-  `;
-}
-
-// CATEGORIA (SELECT)
-
-function crearOpcionCategoria(categoria) {
-  return `
-          <option value="${categoria}">${categoria}</option>
   `;
 }
 

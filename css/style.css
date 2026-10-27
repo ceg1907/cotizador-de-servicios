@@ -1172,21 +1172,33 @@ label {
 }
 
 /* ============================================
-   MODALES (Bootstrap) — ajuste de tipografía y bordes
+   MODALES (Bootstrap)
    ============================================ */
-.modal-content {
-    border-radius: var(--radio-borde);
+.modal .modal-content {
     border: none;
+    box-shadow: 0 20px 50px rgba(27, 31, 35, 0.22);
 }
 
-.modal-header,
-.modal-footer {
-    border-color: var(--color-borde);
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-borde);
 }
 
 .modal-title {
     font-size: 18px;
     font-weight: 600;
+    color: var(--color-texto);
+}
+
+.modal-body {
+    padding: 20px 24px;
+}
+
+.modal-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--color-borde);
+    background-color: var(--color-fondo);
+    border-radius: 0 0 var(--radio-tarjeta) var(--radio-tarjeta);
 }
 
 .modal-footer-split {
@@ -1198,8 +1210,18 @@ label {
     --bs-backdrop-opacity: 0.45;
 }
 
-.modal-content {
-    box-shadow: 0 10px 34px rgba(27, 31, 35, 0.24);
+.btn-close {
+    border-radius: 8px;
+    opacity: 0.55;
+}
+
+.btn-close:hover {
+    opacity: 1;
+    background-color: var(--color-fondo);
+}
+
+.btn-close:focus {
+    box-shadow: 0 0 0 2px var(--color-acento-suave);
 }
 
 /* ============================================
@@ -1284,7 +1306,6 @@ label {
 .box-filtros,
 .box-form-empresa,
 .box-servicios-cotizacion,
-.fila-resultado,
 .tarjeta-admin,
 .modal-content,
 .swal2-popup.modal-cotizador,
