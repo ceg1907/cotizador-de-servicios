@@ -402,17 +402,6 @@ function crearTarjetaCliente(cliente) {
   `;
 }
 
-function obtenerIniciales(nombre) {
-  const inicialesNombre = nombre
-    .split(' ')
-    .slice(0, 2)
-    .map((palabra) => palabra[0])
-    .join('')
-    .toUpperCase();
-  return inicialesNombre;
-}
-console.log(obtenerIniciales('Estudio Norte'));
-
 // MENSAJE SI NO HAY CLIENTE CARGADO
 
 function mostrarClienteDom(cliente) {

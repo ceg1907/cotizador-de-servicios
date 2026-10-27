@@ -317,42 +317,45 @@ function actualizarClientesAdmin() {
 
 function crearFilaServiciosAdmin(servicio) {
   return `
-     <article class="fila-admin">
-       <div>
-           <h3 class="fila-servicio-nombre">${servicio.nombre}</h3>
-           <p class="card-text">${servicio.categoria} · por ${servicio.unidad}</p>
-       </div>
-       <div class="fila-admin-controles">
-           <span class="monto">${formatearMoneda(servicio.precio)}</span>
-           <button type="button" data-id="${servicio.id}" class="btn-icono btn-eliminar-servicio-admin" aria-label="Eliminar ${servicio.nombre}">
-               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                   <line x1="18" y1="6" x2="6" y2="18"></line>
-                   <line x1="6" y1="6" x2="18" y2="18"></line>
-               </svg>
-           </button>
-       </div>
-   </article>
+    <article class="tarjeta-admin">
+      <button type="button" data-id="${servicio.id}" class="btn-icono btn-esquina btn-eliminar-servicio-admin" aria-label="Eliminar ${servicio.nombre}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+      </button>
+      <span class="icono-seccion" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+        </svg>
+      </span>
+      <h3>${servicio.nombre}</h3>
+      <p class="card-text">${servicio.categoria} · por ${servicio.unidad}</p>
+      <span class="monto">${formatearMoneda(servicio.precio)}</span>
+    </article>
   `;
 }
 
 // PESTAÑA CLIENTES
 function crearFilaClientesAdmin(cliente) {
   return `
-     <article class="fila-admin">
-       <div>
-           <h3 class="fila-servicio-nombre">${cliente.nombre}</h3>
-           <p class="card-text">${cliente.email} · ${cliente.ciudad || 'sin ciudad'}</p>
-       </div>
-       <div class="fila-admin-controles">
-           <span class="card-text">${cliente.telefono}</span>
-           <button type="button" data-id="${cliente.id}" class="btn-icono btn-eliminar-cliente-admin" aria-label="Eliminar cliente ${cliente.nombre}">
-               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                   <line x1="18" y1="6" x2="6" y2="18"></line>
-                   <line x1="6" y1="6" x2="18" y2="18"></line>
-               </svg>
-           </button>
-       </div>
-   </article>
+    <article class="tarjeta-admin">
+      <button type="button" data-id="${cliente.id}" class="btn-icono btn-esquina btn-eliminar-cliente-admin" aria-label="Eliminar cliente ${cliente.nombre}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+      </button>
+      <span class="avatar" aria-hidden="true">${obtenerIniciales(cliente.nombre)}</span>
+      <h3>${cliente.nombre}</h3>
+      <p class="card-text">${cliente.email}</p>
+      <p class="card-text">${cliente.ciudad || 'Sin ciudad'} · ${cliente.telefono}</p>
+    </article>
   `;
 }
 

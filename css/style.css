@@ -18,7 +18,8 @@
     --color-secundario: #698D96;
 
     /* Montos */
-    --color-monto: #A86412;
+    --color-monto: var(--color-texto);
+    --color-total: var(--color-acento);
 
     /* Estados */
     --color-pendiente: #9A5B0E;
@@ -526,14 +527,16 @@ label {
    ============================================ */
 .box-buscador-accion {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 16px;
     margin-bottom: 20px;
-    align-items: flex-end;
 }
 
 .contenedor-busqueda {
     position: relative;
-    flex-grow: 1;
+    width: 100%;
+    max-width: 320px;
 }
 
 
@@ -770,13 +773,17 @@ label {
 }
 
 .btn-quitar-servicio,
-.btn-eliminar-cotizacion {
+.btn-eliminar-cotizacion,
+.btn-eliminar-servicio-admin,
+.btn-eliminar-cliente-admin {
     color: var(--color-texto-secundario);
     border-radius: 8px;
 }
 
 .btn-quitar-servicio:hover,
-.btn-eliminar-cotizacion:hover {
+.btn-eliminar-cotizacion:hover,
+.btn-eliminar-servicio-admin:hover,
+.btn-eliminar-cliente-admin:hover {
     color: var(--color-vencida);
     background-color: var(--color-vencida-fondo);
 }
@@ -822,6 +829,10 @@ label {
     padding: 24px;
     position: sticky;
     top: 24px;
+}
+
+.box-total .monto {
+    color: var(--color-total);
 }
 
 .resumen-encabezado {
@@ -996,22 +1007,20 @@ label {
    CONFIGURACIÓN (admin) — pestañas, listas y form de empresa
    ============================================ */
 .nav-tabs {
+    justify-content: flex-start;
+    gap: 24px;
+    margin-bottom: 24px;
     border-bottom: 1px solid var(--color-borde);
-    margin-bottom: 28px;
-    justify-content: center;
-    gap: 28px;
 }
 
 .nav-tabs .nav-link {
+    padding: 0 2px 12px;
     border: none;
     border-bottom: 2px solid transparent;
-    color: var(--color-texto-secundario);
-    font-weight: 500;
-    font-size: 14px;
-    padding: 0 0 12px 0;
-    margin-right: 28px;
     border-radius: 0;
-    margin-right: 28px;
+    color: var(--color-texto-secundario);
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .nav-tabs .nav-link:hover {
@@ -1027,25 +1036,45 @@ label {
 }
 
 .box-lista-admin {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+}
+
+.tarjeta-admin {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-.fila-admin {
-    background-color: var(--color-superficie);
+    align-items: flex-start;
+    gap: 4px;
+    min-height: 160px;
+    padding: 20px;
     border: 1px solid var(--color-borde);
-    border-radius: var(--radio-borde);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background-color: var(--color-superficie);
 }
 
-.fila-admin-controles {
-    display: flex;
-    align-items: center;
-    gap: 18px;
+.tarjeta-admin .icono-seccion,
+.tarjeta-admin .avatar {
+    margin-bottom: 12px;
+}
+
+.tarjeta-admin h3 {
+    margin: 0;
+    padding-right: 28px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.tarjeta-admin .monto {
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 16px;
+}
+
+.btn-esquina {
+    position: absolute;
+    top: 12px;
+    right: 12px;
 }
 
 .box-form-empresa {
@@ -1058,6 +1087,39 @@ label {
     flex-direction: column;
     gap: 16px;
     margin: 0 auto;
+}
+
+.form-empresa {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.zona-peligro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-borde);
+}
+
+.zona-peligro h3 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-vencida);
+}
+
+.zona-peligro p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+}
+
+.zona-peligro .btn-peligro {
+    flex-shrink: 0;
 }
 
 .box-form-modal {
@@ -1223,7 +1285,7 @@ label {
 .box-form-empresa,
 .box-servicios-cotizacion,
 .fila-resultado,
-.fila-admin,
+.tarjeta-admin,
 .modal-content,
 .swal2-popup.modal-cotizador,
 .tarjeta-cotizacion {
@@ -1329,16 +1391,12 @@ label {
     }
 
     /* ----- Config: tarjetas ----- */
-    .fila-admin {
-        flex-direction: column;
-        align-items: stretch;
-        position: relative;
-        padding-right: 48px;
+    .tarjeta-cotizacion {
+        grid-template-columns: 1fr auto;
+        gap: 14px;
     }
 
-    .fila-admin .btn-icono {
-        position: absolute;
-        top: 12px;
-        right: 12px;
+    .tarjeta-cotizacion-principal {
+        grid-column: 1 / -1;
     }
 }

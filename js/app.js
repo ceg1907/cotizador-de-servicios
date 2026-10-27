@@ -178,6 +178,16 @@ function renderizarLista(items, crearFila, idContenedor) {
   idBox.innerHTML = itemsDom;
 }
 
+function obtenerIniciales(nombre) {
+  const inicialesNombre = nombre
+    .split(' ')
+    .slice(0, 2)
+    .map((palabra) => palabra[0])
+    .join('')
+    .toUpperCase();
+  return inicialesNombre;
+}
+
 // FORMATO DE MONEDA
 
 const formatoDolares = new Intl.NumberFormat('es-AR', {
@@ -482,7 +492,7 @@ function generarPdfCotizacion(cotizacion) {
 
   documento.setFont('helvetica', 'normal');
   documento.setFontSize(10);
-  documento.setTextColor('#34383b');
+  documento.setTextColor('#3F525F');
   documento.text(`Nombre: ${nombre}`, 20, 69);
   documento.text(`Email: ${email}`, 20, 75);
   documento.text(`Teléfono: ${telefono}`, 20, 81);
@@ -518,7 +528,7 @@ function generarPdfCotizacion(cotizacion) {
       fontStyle: 'bold',
       halign: 'center',
     },
-    alternateRowStyles: { fillColor: '#E7EEEC' },
+    alternateRowStyles: { fillColor: '#E4EDE8' },
     columnStyles: {
       1: { halign: 'center' },
       2: { halign: 'right' },
@@ -562,7 +572,7 @@ function generarPdfCotizacion(cotizacion) {
   documento.setFontSize(12);
   documento.setTextColor('#1F4B43');
   documento.text('Total', 125, finTabla + 29 + alturaExtra);
-  documento.setTextColor('#C98A3B');
+  documento.setTextColor('#1B4C39#');
   documento.text(formatearMoneda(total), 185, finTabla + 29 + alturaExtra, {
     align: 'right',
   });
@@ -570,7 +580,7 @@ function generarPdfCotizacion(cotizacion) {
   // Validez
   documento.setFont('helvetica', 'normal');
   documento.setFontSize(9);
-  documento.setTextColor('#5B6472');
+  documento.setTextColor('#5F6C75');
   documento.text(
     `Cotización válida hasta el ${formatearFecha(validoHasta)}. Pasada esa fecha, deberá solicitar una nueva cotización y los precios pueden variar.`,
     20,
@@ -580,12 +590,12 @@ function generarPdfCotizacion(cotizacion) {
 
   // Pie de cotizacion
 
-  documento.setDrawColor('#DDE1DC');
+  documento.setDrawColor('#DAD4CB');
   documento.line(20, 270, 190, 270);
 
   documento.setFont('helvetica', 'bold');
   documento.setFontSize(10);
-  documento.setTextColor('#1F4B43');
+  documento.setTextColor('#1B4C39');
   documento.text(nombreEmpresa || 'Nombre empresa', 105, 277, {
     align: 'center',
   });
