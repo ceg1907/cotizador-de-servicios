@@ -1294,22 +1294,92 @@ label {
     color: var(--color-texto);
 }
 
-.swal2-popup.toast-en-curso .swal2-actions {
-    justify-content: flex-start;
-    margin: 8px 0 0;
+.swal2-popup.toast-en-curso {
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    column-gap: 12px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    padding: 14px 12px 14px 14px;
+    border-radius: var(--radio-tarjeta);
 }
 
-.swal2-popup.toast-en-curso .swal2-confirm {
-    padding: 6px 14px;
+.swal2-popup.toast-en-curso .swal2-icon.icono-toast {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin: 0;
+    border: none;
+    border-radius: var(--radio-borde);
+    background-color: var(--color-acento-suave);
+    color: var(--color-acento);
+}
+
+.swal2-popup.toast-en-curso .swal2-icon.icono-toast .swal2-icon-content {
+    font-size: inherit;
+}
+
+.swal2-popup.toast-en-curso .swal2-title {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: left;
+}
+
+.swal2-popup.toast-en-curso .swal2-html-container {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 2px 0 0;
+    padding: 0;
+    font-size: 12px;
+    color: var(--color-texto-secundario);
+    text-align: left;
+}
+
+.swal2-popup.toast-en-curso .swal2-actions {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+.swal2-popup.toast-en-curso .btn-enlace {
+    background: none;
+    border: none;
+    padding: 6px 4px;
     font-size: 13px;
+    font-weight: 600;
+    color: var(--color-acento);
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.swal2-popup.toast-en-curso .btn-enlace:hover {
+    color: var(--color-acento-hover);
+    text-decoration: underline;
 }
 
 .swal2-popup.toast-en-curso .swal2-close {
+    grid-column: 4;
+    grid-row: 1 / 3;
+    position: static;
+    align-self: center;
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
+    border-radius: 8px;
     color: var(--color-texto-secundario);
 }
 
 .swal2-popup.toast-en-curso .swal2-close:hover {
-    color: var(--color-acento);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
 }
 
 .swal2-popup.modal-cotizador {

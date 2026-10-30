@@ -252,15 +252,24 @@ async function avisarCotizacionEnCurso() {
     toast: true,
     position: 'bottom-end',
     icon: 'info',
-    iconColor: '#1F4B43',
+    iconHtml: `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+      </svg>`,
     title: 'Tenés una cotización en curso',
+    text: 'Podés retomarla cuando quieras.',
     showConfirmButton: true,
     confirmButtonText: 'Ver cotización',
     showCloseButton: true,
     buttonsStyling: false,
     customClass: {
       popup: 'toast-cotizador toast-en-curso',
-      confirmButton: 'btn-primario',
+      icon: 'icono-toast',
+      confirmButton: 'btn-enlace',
     },
   });
 
