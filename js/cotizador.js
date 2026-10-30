@@ -10,6 +10,9 @@ escucharEvento('filtro-categoria-modal', 'click', filtrarServiciosModal);
 const inputServicioModal = document.getElementById('buscar-servicio-modal');
 escucharEvento('buscar-servicio-modal', 'input', filtrarServiciosModal);
 
+const inputClienteModal = document.getElementById('buscar-cliente-modal');
+escucharEvento('buscar-cliente-modal', 'input', filtrarClientesModal);
+
 // ===== FUNCIONES REUTILIZABLES =====
 
 function mostrarFechaHoy() {
@@ -452,6 +455,29 @@ function filtrarServiciosModal() {
   }
 
   mostrarServiciosDom(serviciosBuscados);
+}
+
+function filtrarClientesModal() {
+  const textoBuscado = formatearTexto(inputClienteModal.value);
+  const clientesBuscados = aplicarFiltro(
+    clientesDisponibles,
+    textoBuscado,
+    (cliente) =>
+      formatearTexto(cliente.nombre).includes(textoBuscado) ||
+      formatearTexto(cliente.email).includes(textoBuscado),
+  );
+  if (clientesBuscados.length === 0) {
+    mostrarMensajeVacio(
+      'box-resultados-clientes',
+      'No encontramos clientes que coincidan con tu búsqueda. Probá con otro nombre o email.',
+    );
+    return;
+  }
+  renderizarLista(
+    clientesBuscados,
+    crearFilaCliente,
+    'box-resultados-clientes',
+  );
 }
 
 // ====== FUNCIONES INICIADORAS =====
