@@ -1103,6 +1103,40 @@ label {
     gap: 16px;
 }
 
+.box-color {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.box-color input[type="color"] {
+    width: 56px;
+    height: 44px;
+    padding: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.box-color input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.box-color input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 6px;
+}
+
+.box-color input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: 6px;
+}
+
+.ayuda-campo {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-texto-secundario);
+}
+
 .zona-peligro {
     display: flex;
     align-items: center;

@@ -8,6 +8,7 @@ const CLAVE_EMPRESA = 'datosEmpresa';
 const CLAVE_MONEDA = 'monedaSeleccionada';
 
 const IMPUESTO_POR_DEFECTO = 21;
+const COLOR_MARCA_POR_DEFECTO = '#1b4c39';
 const DESCUENTO_POR_DEFECTO = 0;
 
 // ===== FUNCIONES REUTILIZABLES =====

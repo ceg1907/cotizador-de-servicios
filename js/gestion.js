@@ -486,6 +486,7 @@ function guardarDatosEmpresa(evento) {
     telefono: leerCampo('emp-telefono'),
     email: leerCampo('emp-email').toLowerCase(),
     direccion: leerCampo('emp-direccion'),
+    color: leerCampo('emp-color'),
     impuesto: Number(leerCampo('emp-impuesto')),
   };
 
