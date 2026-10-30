@@ -1410,6 +1410,41 @@ label {
     flex: 1;
 }
 
+.swal2-popup.modal-cotizador .swal2-icon {
+    --swal2-icon-zoom: 0.7;
+    margin: 8px auto 0;
+}
+
+.swal2-popup.modal-cotizador .swal2-icon.swal2-warning {
+    border-color: var(--color-vencida);
+    color: var(--color-vencida);
+    background-color: var(--color-vencida-fondo);
+}
+
+.swal2-popup.modal-cotizador .swal2-icon.swal2-success {
+    border-color: var(--color-completada);
+    color: var(--color-completada);
+}
+
+.swal2-popup.modal-cotizador .swal2-success-ring {
+    border-color: rgba(46, 118, 80, 0.25);
+}
+
+.swal2-popup.modal-cotizador [class^='swal2-success-line'] {
+    background-color: var(--color-completada);
+}
+
+.swal2-popup.modal-cotizador .btn-secundario {
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde);
+    color: var(--color-texto);
+}
+
+.swal2-popup.modal-cotizador .btn-secundario:hover {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
 .box-cargando {
     position: fixed;
     inset: 0;
