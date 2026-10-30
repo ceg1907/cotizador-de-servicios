@@ -267,13 +267,10 @@ inputDescuento.addEventListener('input', () => {
 // BOTÓN VACIAR COTIZACIÓN (ASIDE)
 const btnVaciar = document.getElementById('btn-vaciar');
 btnVaciar.addEventListener('click', async () => {
-  const response = await modalCotizador.fire({
-    icon: 'warning',
+  const response = await modalPeligro.fire({
     title: '¿Vaciar la cotización?',
     text: 'Se van a quitar todos los servicios, el cliente y la vigencia de la cotización.',
-    showCancelButton: true,
     confirmButtonText: 'Sí, vaciar',
-    cancelButtonText: 'Cancelar',
   });
   if (response.isConfirmed) {
     resetearCotizador();

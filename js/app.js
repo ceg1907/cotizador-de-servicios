@@ -156,6 +156,17 @@ const modalCotizador = Swal.mixin({
   },
 });
 
+const modalPeligro = modalCotizador.mixin({
+  icon: 'warning',
+  showCancelButton: true,
+  cancelButtonText: 'Cancelar',
+  customClass: {
+    popup: 'modal-cotizador',
+    confirmButton: 'btn-primario btn-peligro-solido',
+    cancelButton: 'btn-secundario',
+  },
+});
+
 // LOADER
 
 function cargarLoader(cargando) {

@@ -437,6 +437,14 @@ label {
     color: var(--color-vencida);
 }
 
+.btn-primario.btn-peligro-solido {
+    background-color: var(--color-vencida);
+}
+
+.btn-primario.btn-peligro-solido:hover {
+    background-color: #962F25;
+}
+
 
 
 /* ============================================
@@ -1292,6 +1300,49 @@ label {
     font-size: 14px;
     font-weight: 500;
     color: var(--color-texto);
+}
+
+.swal2-popup.toast-cotizador {
+    padding: 12px 16px 12px 12px;
+    border-radius: var(--radio-tarjeta);
+    overflow: hidden;
+}
+
+.swal2-popup.toast-cotizador .swal2-title {
+    margin: 0 0 0 10px;
+    align-self: center;
+}
+
+.swal2-popup.toast-cotizador:not(.toast-en-curso) .swal2-title {
+    grid-row: 1 / 99;
+}
+
+.swal2-popup.toast-cotizador .swal2-icon {
+    --swal2-icon-zoom: 0.8;
+}
+
+.swal2-popup.toast-cotizador .swal2-icon.swal2-success {
+    border-color: var(--color-completada);
+    color: var(--color-completada);
+}
+
+.swal2-popup.toast-cotizador .swal2-success-ring {
+    border-color: rgba(46, 118, 80, 0.25);
+}
+
+.swal2-popup.toast-cotizador [class^='swal2-success-line'] {
+    background-color: var(--color-completada);
+}
+
+.swal2-popup.toast-cotizador .swal2-icon.swal2-warning {
+    border-color: var(--color-pendiente);
+    color: var(--color-pendiente);
+    background-color: var(--color-pendiente-fondo);
+}
+
+.swal2-popup.toast-cotizador .swal2-timer-progress-bar {
+    height: 3px;
+    background-color: var(--color-acento);
 }
 
 .swal2-popup.toast-en-curso {

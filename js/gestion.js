@@ -142,13 +142,10 @@ async function eliminarCotizacion(evento) {
   const btnEliminar = evento.target.closest('.btn-eliminar-cotizacion');
   if (btnEliminar) {
     const idBtnEliminar = Number(btnEliminar.dataset.id);
-    const response = await modalCotizador.fire({
-      icon: 'warning',
+    const response = await modalPeligro.fire({
       title: 'Estás a punto de eliminar la cotización.',
-      text: 'Estás seguro que querés borrar esta cotización?',
-      showCancelButton: true,
+      text: '¿Estás seguro de que querés borrar esta cotización?',
       confirmButtonText: 'Sí, borrar de forma permanente',
-      cancelButtonText: 'Cancelar',
     });
     if (response.isConfirmed) {
       const leerHistorial = leerStorage(CLAVE_HISTORIAL_COTIZACIONES, []);
@@ -352,13 +349,9 @@ async function eliminarServicioAdmin(evento) {
   const btnEliminar = evento.target.closest('.btn-eliminar-servicio-admin');
   if (btnEliminar) {
     const idBtnEliminar = Number(btnEliminar.dataset.id);
-    const response = await modalCotizador.fire({
-      icon: 'warning',
+    const response = await modalPeligro.fire({
       title: 'Estás a punto de eliminar este servicio.',
-      text: '¿Estás seguro de que querés borrarlo?',
-      showCancelButton: true,
       confirmButtonText: 'Sí, borrar de forma permanente',
-      cancelButtonText: 'Cancelar',
     });
     if (response.isConfirmed) {
       serviciosDisponiblesAdmin = serviciosDisponiblesAdmin.filter(
@@ -415,13 +408,10 @@ async function eliminarClienteAdmin(evento) {
   const btnEliminar = evento.target.closest('.btn-eliminar-cliente-admin');
   if (btnEliminar) {
     const idBtnEliminar = Number(btnEliminar.dataset.id);
-    const response = await modalCotizador.fire({
-      icon: 'warning',
+    const response = await modalPeligro.fire({
       title: 'Estás a punto de eliminar este cliente.',
       text: '¿Estás seguro de que querés borrarlo? Las cotizaciones que ya confirmaste no se van a modificar.',
-      showCancelButton: true,
       confirmButtonText: 'Sí, borrar de forma permanente',
-      cancelButtonText: 'Cancelar',
     });
     if (response.isConfirmed) {
       clientesDisponiblesAdmin = clientesDisponiblesAdmin.filter(
@@ -473,13 +463,10 @@ escucharEvento('form-cliente', 'submit', crearNuevoCliente);
 // BOTONES RESETEAR DATOS
 
 async function restablecerDatos() {
-  const response = await modalCotizador.fire({
-    icon: 'warning',
+  const response = await modalPeligro.fire({
     title: 'Estás a punto de restablecer los datos.',
     text: '¿Estás seguro de que querés borrarlos?',
-    showCancelButton: true,
     confirmButtonText: 'Sí, borrar de forma permanente',
-    cancelButtonText: 'Cancelar',
   });
   if (response.isConfirmed) {
     localStorage.clear();
