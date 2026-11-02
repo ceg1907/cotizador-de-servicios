@@ -469,6 +469,123 @@ function generarNumeroCotizacion() {
 
 // ====== FUNCION GENERAR PDF =====
 
+// COLORES DEL PDF
+
+function aclararColor(colorHex, porcentaje) {
+  const rojo = parseInt(colorHex.slice(1, 3), 16);
+  const verde = parseInt(colorHex.slice(3, 5), 16);
+  const azul = parseInt(colorHex.slice(5, 7), 16);
+  const mezclar = (canal) =>
+    Math.round(canal + (255 - canal) * (1 - porcentaje / 100));
+  return [mezclar(rojo), mezclar(verde), mezclar(azul)];
+}
+
+// CAJITAS DE DATOS DEL PDF
+
+function dibujarCajaDato(
+  documento,
+  x,
+  ancho,
+  titulo,
+  valor,
+  colorMarca,
+  colorSuave,
+  centrado = false,
+) {
+  documento.setFillColor(...colorSuave);
+  documento.roundedRect(x, 54, ancho, 26, 2.5, 2.5, 'F');
+
+  const xTexto = centrado ? x + ancho / 2 : x + 5;
+  const alineacion = centrado ? 'center' : 'left';
+  const yTitulo = centrado ? 64 : 61;
+  const yValor = centrado ? 71 : 68;
+
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(7);
+  documento.setTextColor(colorMarca);
+  const espacioLetras = 0.5;
+  const correccion = centrado ? (espacioLetras * (titulo.length - 1)) / 2 : 0;
+  documento.text(titulo, xTexto - correccion, yTitulo, {
+    align: alineacion,
+    charSpace: espacioLetras,
+  });
+
+  documento.setFontSize(11);
+  documento.setTextColor('#2B3640');
+  documento.text(valor, xTexto, yValor, { align: alineacion });
+}
+
+// ENCABEZADO DEL PDF
+
+function dibujarEncabezadoPdf(documento, datosEmpresa, numeroCotizacion) {
+  const {
+    nombre: nombreEmpresa,
+    telefono: telefonoEmpresa,
+    email: emailEmpresa,
+    direccion: direccionEmpresa,
+    logo: logoEmpresa,
+    color: colorEmpresa,
+  } = datosEmpresa;
+  const colorMarca = colorEmpresa || COLOR_MARCA_POR_DEFECTO;
+
+  // Banda de color
+  documento.setFillColor(colorMarca);
+  documento.rect(0, 0, 210, 44, 'F');
+
+  let inicioTexto = 20;
+  if (logoEmpresa) {
+    const propiedades = documento.getImageProperties(logoEmpresa);
+    const escala = Math.min(50 / propiedades.width, 20 / propiedades.height);
+    const anchoLogo = propiedades.width * escala;
+    const altoLogo = propiedades.height * escala;
+
+    const margenCaja = 1.5;
+    const anchoCaja = anchoLogo + margenCaja * 2;
+    const altoCaja = altoLogo + margenCaja * 2;
+    const yCaja = 22 - altoCaja / 2;
+
+    documento.setFillColor('#FFFFFF');
+    documento.roundedRect(20, yCaja, anchoCaja, altoCaja, 2, 2, 'F');
+    documento.addImage(
+      logoEmpresa,
+      propiedades.fileType,
+      20 + margenCaja,
+      yCaja + margenCaja,
+      anchoLogo,
+      altoLogo,
+    );
+
+    inicioTexto = 20 + anchoCaja + 8;
+  }
+
+  // Nombre y contacto de la empresa
+  documento.setTextColor('#FFFFFF');
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(16);
+  documento.text(nombreEmpresa || 'Nombre empresa', inicioTexto, 20);
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(9);
+  const contacto = [emailEmpresa, telefonoEmpresa]
+    .filter((dato) => dato)
+    .join('  ·  ');
+  if (contacto) {
+    documento.text(contacto, inicioTexto, 27);
+  }
+  if (direccionEmpresa) {
+    documento.text(direccionEmpresa, inicioTexto, 32);
+  }
+
+  // Número de presupuesto
+  documento.setFontSize(8);
+  documento.text('PRESUPUESTO', 190, 19, { align: 'right' });
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(20);
+  documento.text(formatearNumeroCotizacion(numeroCotizacion), 190, 29, {
+    align: 'right',
+  });
+}
+
 function generarPdfCotizacion(cotizacion) {
   const {
     numeroCotizacion,
@@ -486,6 +603,8 @@ function generarPdfCotizacion(cotizacion) {
   const { nombre, email, telefono, direccion, ciudad } = cliente;
 
   const datosEmpresa = leerStorage(CLAVE_EMPRESA, {});
+  const colorMarca = datosEmpresa.color || COLOR_MARCA_POR_DEFECTO;
+  const colorSuave = aclararColor(colorMarca, 10);
   const {
     nombre: nombreEmpresa,
     telefono: telefonoEmpresa,
@@ -499,149 +618,252 @@ function generarPdfCotizacion(cotizacion) {
   const { jsPDF } = window.jspdf;
   const documento = new jsPDF();
 
-  // Título
-  documento.setFont('helvetica', 'bold');
-  documento.setFontSize(28);
-  documento.setTextColor('#1F4B43');
-  documento.text('COTIZACIÓN', 105, 30, { align: 'center' });
+  dibujarEncabezadoPdf(documento, datosEmpresa, numeroCotizacion);
 
-  // Número
-  documento.setFontSize(14);
-  documento.text(formatearNumeroCotizacion(numeroCotizacion), 105, 39, {
-    align: 'center',
-  });
-
-  // Fecha
-  documento.setFont('helvetica', 'normal');
-  documento.setFontSize(10);
-  documento.setTextColor('#5B6472');
-  documento.text(`Fecha: ${formatearFecha(fecha)}`, 105, 46, {
-    align: 'center',
-  });
-
-  // Datos cliente
-
-  documento.setFont('helvetica', 'bold');
-  documento.setFontSize(11);
-  documento.setTextColor('#1F4B43');
-  documento.text('CLIENTE', 20, 62);
-
-  documento.setFont('helvetica', 'normal');
-  documento.setFontSize(10);
-  documento.setTextColor('#3F525F');
-  documento.text(`Nombre: ${nombre}`, 20, 69);
-  documento.text(`Email: ${email}`, 20, 75);
-  documento.text(`Teléfono: ${telefono}`, 20, 81);
-  documento.text(
-    `Dirección: ${direccion || 'sin especificar'}, ${ciudad || 'ciudad no especificada'}`,
+  // Cajitas: cliente y fechas
+  dibujarCajaDato(
+    documento,
     20,
-    87,
+    82,
+    'PREPARADO PARA',
+    nombre,
+    colorMarca,
+    colorSuave,
+  );
+  dibujarCajaDato(
+    documento,
+    106,
+    40,
+    'FECHA DE EMISIÓN',
+    formatearFecha(fecha),
+    colorMarca,
+    colorSuave,
+    true,
+  );
+  dibujarCajaDato(
+    documento,
+    150,
+    40,
+    'VÁLIDO HASTA',
+    formatearFecha(validoHasta),
+    colorMarca,
+    colorSuave,
+    true,
+  );
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(8.5);
+  documento.setTextColor('#5F6C75');
+  const contactoCliente = [email, telefono]
+    .filter((dato) => dato)
+    .join('  ·  ');
+  const ubicacionCliente = [direccion, ciudad]
+    .filter((dato) => dato)
+    .join(', ');
+  documento.text(contactoCliente, 25, 73.5);
+  documento.text(ubicacionCliente, 25, 77.5, { maxWidth: 72 });
+
+  // Saludo
+  documento.setFontSize(10);
+  documento.text(
+    `Hola ${nombre}, gracias por tu consulta. Te compartimos el detalle de los servicios:`,
+    20,
+    92,
+    { maxWidth: 170 },
   );
 
   // Tabla de servicios cotizados
-
   documento.autoTable({
-    startY: 97,
-    margin: { left: 20, right: 20 },
-    head: [['Servicio', 'Cantidad', 'Precio', 'Subtotal']],
+    startY: 99,
+    margin: { left: 20, right: 20, bottom: 25 },
+    head: [
+      [
+        'Servicio',
+        { content: 'Cantidad', styles: { halign: 'center' } },
+        { content: 'Precio unitario', styles: { halign: 'right' } },
+        { content: 'Subtotal', styles: { halign: 'right' } },
+      ],
+    ],
     body: servicios.map((servicio) => [
       servicio.nombre,
       formatearCantidad(servicio.cantidad, servicio.unidad),
       formatearMoneda(servicio.precio),
       formatearMoneda(calcularMonto(servicio)),
     ]),
-    theme: 'grid',
+    theme: 'plain',
     styles: {
       font: 'helvetica',
       fontSize: 10,
-      textColor: '#34383b',
-      lineColor: '#DDE1DC',
-      cellPadding: 3,
+      textColor: '#2B3640',
+      cellPadding: { top: 4, right: 4, bottom: 7, left: 4 },
+      lineColor: '#E6E2DC',
+      lineWidth: { bottom: 0.3 },
     },
     headStyles: {
-      fillColor: '#1F4B43',
+      fillColor: colorMarca,
       textColor: '#FFFFFF',
       fontStyle: 'bold',
-      halign: 'center',
+      fontSize: 9,
+      cellPadding: 4,
+      lineWidth: 0,
     },
-    alternateRowStyles: { fillColor: '#E4EDE8' },
+    alternateRowStyles: { fillColor: colorSuave },
     columnStyles: {
+      0: { cellWidth: 70 },
       1: { halign: 'center' },
       2: { halign: 'right' },
       3: { halign: 'right' },
     },
+    didDrawCell: (dato) => {
+      if (dato.section === 'body' && dato.column.index === 0) {
+        const servicio = servicios[dato.row.index];
+        documento.setFontSize(8);
+        documento.setTextColor('#5F6C75');
+        documento.text(
+          servicio.categoria,
+          dato.cell.x + 4,
+          dato.cell.y + dato.cell.height - 3.5,
+        );
+      }
+    },
   });
 
+  // ===== TOTALES =====
   const finTabla = documento.lastAutoTable.finalY;
   const hayDescuento = porcentajeDescuento > 0;
-  const alturaExtra = hayDescuento ? 7 : 0;
+  const colorBorde = aclararColor(colorMarca, 25);
 
-  // Caja de totales
-  documento.setFillColor('#E7EEEC');
-  documento.rect(120, finTabla + 6, 70, 28 + alturaExtra, 'F');
-
-  documento.setFont('helvetica', 'normal');
-  documento.setFontSize(10);
-  documento.setTextColor('#34383b');
-  documento.text('Subtotal', 125, finTabla + 13);
-  documento.text(formatearMoneda(subtotal), 185, finTabla + 13, {
-    align: 'right',
-  });
-
+  const filasTotales = [['Subtotal', formatearMoneda(subtotal)]];
   if (hayDescuento) {
-    documento.text(`Descuento (${porcentajeDescuento}%)`, 125, finTabla + 20);
-    documento.text(`-${formatearMoneda(descuento)}`, 185, finTabla + 20, {
-      align: 'right',
-    });
+    filasTotales.push([
+      `Descuento (${porcentajeDescuento}%)`,
+      `- ${formatearMoneda(descuento)}`,
+    ]);
+  }
+  filasTotales.push([
+    `IVA (${porcentajeImpuesto}%)`,
+    formatearMoneda(impuesto),
+  ]);
+
+  const altoFilas = 5 + filasTotales.length * 7;
+  const altoTotal = 12;
+  const altoCaja = altoFilas + altoTotal;
+  let inicioCaja = finTabla + 8;
+  if (inicioCaja + altoCaja > 272) {
+    documento.addPage();
+    inicioCaja = 20;
   }
 
-  documento.text(
-    `IVA (${porcentajeImpuesto}%)`,
-    125,
-    finTabla + 20 + alturaExtra,
-  );
-  documento.text(formatearMoneda(impuesto), 185, finTabla + 20 + alturaExtra, {
-    align: 'right',
+  // Caja con borde
+  documento.setDrawColor(...colorBorde);
+  documento.setLineWidth(0.3);
+  documento.roundedRect(118, inicioCaja, 72, altoCaja, 2.5, 2.5, 'S');
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(9.5);
+  documento.setTextColor('#2B3640');
+  filasTotales.forEach(([texto, monto], indice) => {
+    const y = inicioCaja + 8 + indice * 7;
+    documento.text(texto, 123, y);
+    documento.text(monto, 185, y, { align: 'right' });
   });
+
+  // Franja del total
+  const inicioTotal = inicioCaja + altoFilas;
+  documento.setFillColor(colorMarca);
+  documento.roundedRect(118, inicioTotal, 72, altoTotal, 2.5, 2.5, 'F');
+  documento.rect(118, inicioTotal, 72, 3, 'F');
 
   documento.setFont('helvetica', 'bold');
   documento.setFontSize(12);
-  documento.setTextColor('#1F4B43');
-  documento.text('Total', 125, finTabla + 29 + alturaExtra);
-  documento.setTextColor('#1B4C39#');
-  documento.text(formatearMoneda(total), 185, finTabla + 29 + alturaExtra, {
+  documento.setTextColor('#FFFFFF');
+  documento.text('Total', 123, inicioTotal + 7.8);
+  documento.text(formatearMoneda(total), 185, inicioTotal + 7.8, {
     align: 'right',
   });
 
-  // Validez
-  documento.setFont('helvetica', 'normal');
-  documento.setFontSize(9);
-  documento.setTextColor('#5F6C75');
-  documento.text(
-    `Cotización válida hasta el ${formatearFecha(validoHasta)}. Pasada esa fecha, deberá solicitar una nueva cotización y los precios pueden variar.`,
-    20,
-    finTabla + 13,
-    { maxWidth: 90 },
-  );
-
-  // Pie de cotizacion
-
-  documento.setDrawColor('#DAD4CB');
-  documento.line(20, 270, 190, 270);
+  // ===== CONDICIONES =====
+  const monedaGuardada = leerStorage(CLAVE_MONEDA, {});
+  const nombreMoneda =
+    monedaGuardada.moneda === 'ARS'
+      ? 'pesos argentinos'
+      : 'dólares estadounidenses';
+  const condiciones = [
+    `Presupuesto válido hasta el ${formatearFecha(validoHasta)}. Pasada esa fecha, los precios pueden variar.`,
+    `Los importes están expresados en ${nombreMoneda}.`,
+  ];
 
   documento.setFont('helvetica', 'bold');
-  documento.setFontSize(10);
-  documento.setTextColor('#1B4C39');
-  documento.text(nombreEmpresa || 'Nombre empresa', 105, 277, {
-    align: 'center',
-  });
+  documento.setFontSize(7);
+  documento.setTextColor(colorMarca);
+  documento.text('CONDICIONES', 20, inicioCaja + 5, { charSpace: 0.5 });
 
   documento.setFont('helvetica', 'normal');
-  documento.setFontSize(9);
-  documento.setTextColor('#5B6472');
-  documento.text(datosContacto || 'No hay una empresa registrada.', 105, 283, {
-    align: 'center',
+  documento.setFontSize(8.5);
+  documento.setTextColor('#5F6C75');
+  let yCondicion = inicioCaja + 11;
+  condiciones.forEach((condicion) => {
+    const renglones = documento.splitTextToSize(condicion, 86);
+    documento.text('•', 20, yCondicion);
+    documento.text(renglones, 24, yCondicion);
+    yCondicion += renglones.length * 4 + 2;
   });
+
+  // ===== MENSAJE DE CIERRE =====
+  let inicioGracias = Math.max(inicioCaja + altoCaja, yCondicion) + 14;
+  if (inicioGracias + 20 > 272) {
+    documento.addPage();
+    inicioGracias = 20;
+  }
+
+  documento.setFillColor(...colorSuave);
+  documento.roundedRect(20, inicioGracias, 170, 20, 2.5, 2.5, 'F');
+  documento.setFillColor(colorMarca);
+  documento.rect(20, inicioGracias, 1.5, 20, 'F');
+
+  documento.setFont('helvetica', 'bold');
+  documento.setFontSize(10.5);
+  documento.setTextColor(colorMarca);
+  documento.text('¡Gracias por elegirnos!', 27, inicioGracias + 8);
+
+  documento.setFont('helvetica', 'normal');
+  documento.setFontSize(8.5);
+  documento.setTextColor('#5F6C75');
+  documento.text(
+    'Si estás de acuerdo con el presupuesto, comunicate con nosotros y coordinamos los próximos pasos.',
+    27,
+    inicioGracias + 14,
+    { maxWidth: 158 },
+  );
+
+  // ===== PIE (en todas las páginas) =====
+  const totalPaginas = documento.getNumberOfPages();
+  for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+    documento.setPage(pagina);
+
+    documento.setDrawColor(colorMarca);
+    documento.setLineWidth(0.6);
+    documento.line(20, 279, 190, 279);
+
+    documento.setFont('helvetica', 'bold');
+    documento.setFontSize(8.5);
+    documento.setTextColor(colorMarca);
+    const textoNombre = nombreEmpresa || 'Nombre empresa';
+    documento.text(textoNombre, 20, 285);
+    const anchoNombre = documento.getTextWidth(textoNombre);
+
+    if (datosContacto) {
+      documento.setFont('helvetica', 'normal');
+      documento.setTextColor('#5F6C75');
+      documento.text(`  ·  ${datosContacto}`, 20 + anchoNombre, 285);
+    }
+
+    documento.setFont('helvetica', 'normal');
+    documento.setTextColor('#5F6C75');
+    documento.text(`Página ${pagina} de ${totalPaginas}`, 190, 285, {
+      align: 'right',
+    });
+  }
 
   documento.save(formatearNumeroCotizacion(numeroCotizacion) + '.pdf');
 }

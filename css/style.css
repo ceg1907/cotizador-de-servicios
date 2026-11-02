@@ -1179,6 +1179,73 @@ label {
     align-self: flex-start;
 }
 
+.label-campo {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.box-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.vista-logo {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px dashed var(--color-borde);
+    border-radius: var(--radio-borde);
+    background-color: var(--color-fondo);
+    font-size: 11px;
+    color: var(--color-texto-secundario);
+}
+
+.vista-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.box-logo-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+.box-logo-acciones .btn-secundario {
+    margin: 0;
+}
+
+.box-logo-acciones .btn-link {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-texto-secundario);
+    text-decoration: none;
+}
+
+.box-logo-acciones .btn-link:hover {
+    color: var(--color-vencida);
+    background-color: var(--color-vencida-fondo);
+}
+
+.box-logo-acciones .ayuda-campo {
+    flex-basis: 100%;
+}
+
+#emp-logo:focus-visible+label {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+}
+
 /* ============================================
    RESULTADOS DENTRO DE MODALES
    ============================================ */

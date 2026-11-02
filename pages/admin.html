@@ -168,6 +168,22 @@
                             <input type="text" id="emp-direccion" name="emp-direccion" placeholder="Av. Principal 123">
                         </div>
                         <div>
+                            <span class="label-campo">Logo</span>
+                            <div class="box-logo">
+                                <div class="vista-logo">
+                                    <img id="img-logo" class="d-none" alt="Logo de tu empresa">
+                                    <span id="sin-logo">Sin logo</span>
+                                </div>
+                                <div class="box-logo-acciones">
+                                    <input type="file" id="emp-logo" accept="image/png, image/jpeg"
+                                        class="visually-hidden">
+                                    <label for="emp-logo" class="btn-secundario">Subir imagen</label>
+                                    <button type="button" id="btn-quitar-logo" class="btn-link d-none">Quitar</button>
+                                    <p class="ayuda-campo">PNG o JPG, hasta 300 KB. Se ve mejor si es cuadrado.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
                             <label for="emp-color">Color de tu marca</label>
                             <div class="box-color">
                                 <input type="color" id="emp-color" name="emp-color" value="#1B4C39">

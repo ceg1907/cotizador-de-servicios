@@ -486,6 +486,7 @@ function guardarDatosEmpresa(evento) {
     telefono: leerCampo('emp-telefono'),
     email: leerCampo('emp-email').toLowerCase(),
     direccion: leerCampo('emp-direccion'),
+    logo: logoEmpresa,
     color: leerCampo('emp-color'),
     impuesto: Number(leerCampo('emp-impuesto')),
   };
@@ -518,8 +519,73 @@ function mostrarDatosEmpresa() {
     escribirCampo('emp-telefono', datosEmpresa.telefono);
     escribirCampo('emp-email', datosEmpresa.email);
     escribirCampo('emp-direccion', datosEmpresa.direccion);
+    logoEmpresa = datosEmpresa.logo || null;
+    mostrarVistaLogo(logoEmpresa);
+    escribirCampo('emp-color', datosEmpresa.color || COLOR_MARCA_POR_DEFECTO);
     escribirCampo('emp-impuesto', datosEmpresa.impuesto);
   }
+}
+
+// LOGO DE LA EMPRESA
+
+const LOGO_PESO_MAXIMO = 300 * 1024;
+let logoEmpresa = null;
+
+function cargarLogo(evento) {
+  const archivo = evento.target.files[0];
+  if (!archivo) {
+    return;
+  }
+
+  const tiposPermitidos = ['image/png', 'image/jpeg'];
+  if (!tiposPermitidos.includes(archivo.type)) {
+    mostrarAviso('El logo tiene que ser una imagen PNG o JPG.');
+    evento.target.value = '';
+    return;
+  }
+
+  if (archivo.size > LOGO_PESO_MAXIMO) {
+    mostrarAviso(
+      'El logo pesa más de 300 KB. Probá con una imagen más liviana.',
+    );
+    evento.target.value = '';
+    return;
+  }
+
+  const lector = new FileReader();
+  lector.addEventListener('load', () => {
+    logoEmpresa = lector.result;
+    mostrarVistaLogo(logoEmpresa);
+  });
+  lector.readAsDataURL(archivo);
+}
+escucharEvento('emp-logo', 'change', cargarLogo);
+
+const imgLogo = document.getElementById('img-logo');
+
+const btnQuitarLogo = document.getElementById('btn-quitar-logo');
+escucharEvento('btn-quitar-logo', quitarLogo);
+
+const textoLogo = document.getElementById('sin-logo');
+
+function mostrarVistaLogo(logo) {
+  if (logo) {
+    imgLogo.src = logo;
+    imgLogo.classList.remove('d-none');
+    btnQuitarLogo.classList.remove('d-none');
+    textoLogo.classList.add('d-none');
+  } else {
+    imgLogo.classList.add('d-none');
+    btnQuitarLogo.classList.add('d-none');
+    textoLogo.classList.remove('d-none');
+  }
+}
+
+function quitarLogo() {
+  const inputLogo = document.getElementById('emp-logo');
+  logoEmpresa = null;
+  mostrarVistaLogo(logoEmpresa);
+  inputLogo.value = '';
 }
 
 //  ====== FUNCIONES INICIADORAS ======
