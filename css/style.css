@@ -1117,10 +1117,15 @@ label {
 }
 
 .box-color input[type="color"] {
+    appearance: none;
+    /* -webkit-appearance: none; */
     width: 56px;
     height: 44px;
     padding: 4px;
     flex-shrink: 0;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    background-color: var(--color-superficie);
     cursor: pointer;
 }
 
@@ -1769,5 +1774,19 @@ label {
 
     .tarjeta-cotizacion-principal {
         grid-column: 1 / -1;
+    }
+
+    .box-fila-doble {
+        flex-direction: column;
+    }
+
+    .box-impuesto {
+        width: 100%;
+    }
+
+    .zona-peligro {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
     }
 }
