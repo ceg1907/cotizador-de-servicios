@@ -687,8 +687,15 @@ label {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+
+}
+
+.box-header-servicios .titulo-seccion {
+    flex: 1 1 280px;
+    min-width: 0;
 }
 
 .box-lista-servicios-cotizacion {
@@ -1673,6 +1680,12 @@ label {
     /* ----- Cotizador ----- */
     .main-index {
         flex-direction: column;
+        align-items: stretch;
+    }
+
+    .main-index>* {
+        width: 100%;
+        min-width: 0;
     }
 
     .box-resumen {
@@ -1684,6 +1697,11 @@ label {
     .fila-servicio-cotizacion {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .box-header-servicios .btn-primario {
+        width: 100%;
+        justify-content: center;
     }
 
     /* ----- Historial: filtros ----- */
