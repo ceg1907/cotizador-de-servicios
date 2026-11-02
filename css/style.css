@@ -1648,7 +1648,22 @@ label {
     .box-navegacion {
         flex-basis: 100%;
         flex-wrap: wrap;
-        gap: 12px;
+        align-items: center;
+        row-gap: 12px;
+    }
+
+    .box-navegacion .empresa-header {
+        order: 1;
+    }
+
+    .box-navegacion .selector-moneda {
+        order: 2;
+        margin-left: auto;
+    }
+
+    .box-navegacion nav {
+        order: 3;
+        flex-basis: 100%;
     }
 
     .empresa-header {
@@ -1733,6 +1748,13 @@ label {
     .tarjeta-cotizacion {
         grid-template-columns: 1fr auto;
         gap: 14px;
+    }
+
+    .tarjeta-cotizacion-acciones {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        padding-top: 12px;
+        border-top: 1px solid var(--color-borde);
     }
 
     .tarjeta-cotizacion-principal {
